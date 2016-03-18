@@ -1,9 +1,20 @@
 #include <iostream>
+#include "World.h"
 
 using namespace std;
 
 int main(int argc, char **argv){
 
-cout << "Hello world" << endl;
+  int EndOfDays = 10;
 
+  cout << "Starting the Game of Life!" << endl;
+
+  World world;
+  world.Populate();
+
+  while(world.Day() < EndOfDays){
+    cout << "Day: " << world.Day() << endl;
+    world.Record();
+    world.Update();
+  }
 }
