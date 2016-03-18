@@ -9,7 +9,7 @@ int main(int argc, char **argv){
 
   cout << "Starting the Game of Life!" << endl;
 
-  World world;
+  World world(10,10);
   world.Populate();
 
   while(world.Day() < EndOfDays){

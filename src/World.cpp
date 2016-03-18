@@ -1,7 +1,6 @@
-#include <iostream>
 #include "World.h"
 
-World::World():day(0){
+World::World(int sizex, int sizey):day(0),sizex(sizex),sizey(sizey),lifeforms(sizex,vector<int>(sizey)){
 
 }
 
@@ -19,4 +18,16 @@ void World::Update(){
 
 int World::Day() const{
   return day;
+}
+
+int World::Sizex() const{
+  return sizex;
+}
+
+int World::Sizey() const{
+  return sizey;
+}
+
+vector< vector< int > > World::Lifeforms() const{
+  return lifeforms;
 }
