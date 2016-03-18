@@ -2,25 +2,29 @@
 #define WORLD_H_
 
 #include <vector>
+#include <cmath>
+#include <ctime>
+#include <iostream>
 using namespace std;
 
 class World {
 public:
   World(int sizex, int sizey);
-  void Populate();
+  void Populate(int seed);
   void Record() const;
   void Update();
   int Day() const;
   int Sizex() const;
   int Sizey() const;
-  vector< vector< int > > Lifeforms() const;
+  int Size() const;
+  vector< vector< int > > Grid() const;
 
 
 private:
   int day;
   const int sizex;
   const int sizey;
-  vector< vector< int > > lifeforms;
+  vector< vector< int > > grid;
 };
 
 #endif /* WORLD_H_ */

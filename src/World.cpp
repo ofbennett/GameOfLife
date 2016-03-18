@@ -1,11 +1,17 @@
 #include "World.h"
 
-World::World(int sizex, int sizey):day(0),sizex(sizex),sizey(sizey),lifeforms(sizex,vector<int>(sizey)){
+
+World::World(int sizex, int sizey):day(0),sizex(sizex),sizey(sizey),grid(sizex,vector<int>(sizey)){
 
 }
 
-void World::Populate(){
-
+void World::Populate(int seed){
+  srand(seed);
+  for (int x=0;x<sizex;x++) {
+    for (int y=0;y<sizey;y++) {
+        grid[x][y] = rand()%2;
+    }
+  }
 }
 
 void World::Record() const{
@@ -28,6 +34,10 @@ int World::Sizey() const{
   return sizey;
 }
 
-vector< vector< int > > World::Lifeforms() const{
-  return lifeforms;
+vector< vector< int > > World::Grid() const{
+  return grid;
+}
+
+int World::Size() const{
+  return sizex*sizey;
 }
