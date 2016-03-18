@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 #include <ctime>
 #include "World.h"
 
@@ -10,9 +11,10 @@ int main(int argc, char **argv){
   bool SeedLife = false;
 
   int seed;
+  ofstream outfile("test.txt");
 
   cout << "Starting the Game of Life!" << endl;
-  
+
   if(SeedLife){
     seed = 100;
   }else{
@@ -24,7 +26,7 @@ int main(int argc, char **argv){
 
   while(world.Day() < EndOfDays){
     cout << "Day: " << world.Day() << endl;
-    world.Record();
+    world.Record(outfile);
     world.Update();
   }
 }

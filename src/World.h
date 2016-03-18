@@ -3,7 +3,6 @@
 
 #include <vector>
 #include <cmath>
-#include <ctime>
 #include <iostream>
 using namespace std;
 
@@ -11,7 +10,7 @@ class World {
 public:
   World(int sizex, int sizey);
   void Populate(int seed);
-  void Record() const;
+  void Record(ostream &out) const;
   void Update();
   int Day() const;
   int Sizex() const;

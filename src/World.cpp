@@ -14,8 +14,14 @@ void World::Populate(int seed){
   }
 }
 
-void World::Record() const{
-
+void World::Record(ostream &out) const{
+  for (int x=0;x<sizex;x++) {
+    for (int y=0;y<sizey;y++) {
+       out << grid[x][y] << " , ";
+    }
+    out << endl;
+  }
+  out << endl;
 }
 
 void World::Update(){
