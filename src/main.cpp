@@ -7,6 +7,8 @@ using namespace std;
 
 int main(int argc, char **argv){
 
+  int sizex = 10;
+  int sizey = 10;
   int EndOfDays = 10;
   bool SeedLife = false;
 
@@ -21,7 +23,7 @@ int main(int argc, char **argv){
     seed = static_cast<int>(time(NULL));
   }
 
-  World world(10,10);
+  World world(sizex,sizey);
   world.Populate(seed);
 
   while(world.Day() < EndOfDays){

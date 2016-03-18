@@ -1,7 +1,7 @@
 #include "World.h"
 
 
-World::World(int sizex, int sizey):day(0),sizex(sizex),sizey(sizey),grid(sizex,vector<int>(sizey)){
+World::World(int sizex, int sizey):day(0),sizex(sizex),sizey(sizey),grid(sizex,vector<aliveness>(sizey)){
 
 }
 

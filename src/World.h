@@ -4,6 +4,9 @@
 #include <vector>
 #include <cmath>
 #include <iostream>
+
+typedef int aliveness;
+
 using namespace std;
 
 class World {
@@ -23,7 +26,7 @@ private:
   int day;
   const int sizex;
   const int sizey;
-  vector< vector< int > > grid;
+  vector< vector< aliveness > > grid;
 };
 
 #endif /* WORLD_H_ */
