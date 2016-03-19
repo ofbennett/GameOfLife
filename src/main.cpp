@@ -13,7 +13,7 @@ int main(int argc, char **argv){
   bool Pseudorandom = false;
 
   int seed;
-  ofstream outfile("test.txt");
+  ofstream outfile("output.txt");
 
   cout << "Starting the Game of Life!" << endl;
 

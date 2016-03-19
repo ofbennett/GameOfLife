@@ -5,7 +5,7 @@ import matplotlib.animation as anim
 import matplotlib.pyplot as plt
 from StringIO import StringIO as strio
 
-video_fname = "../build/GOL_video.mp4"
+video_fname = "GOL_video.mp4"
 
 def get_data(fname):
     with open(fname) as data_file:
