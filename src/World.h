@@ -5,9 +5,10 @@
 #include <cmath>
 #include <iostream>
 
-typedef bool aliveness;
-
 using namespace std;
+
+typedef bool aliveness;
+typedef vector< vector< aliveness > > grid_type;
 
 class World {
 public:
@@ -20,15 +21,15 @@ public:
   int Sizex() const;
   int Sizey() const;
   int Size() const;
-  vector< vector< aliveness > > Grid() const;
+  grid_type Grid() const;
   aliveness NewState(int x, int y) const;
 
 private:
   int day;
   const int sizex;
   const int sizey;
-  vector< vector< aliveness > > grid;
-  vector< vector< aliveness > > next_grid;
+  grid_type grid;
+  grid_type next_grid;
   aliveness alive;
   aliveness dead;
 };

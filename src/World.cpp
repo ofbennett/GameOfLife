@@ -58,7 +58,7 @@ int World::Sizey() const{
   return sizey;
 }
 
-vector< vector< aliveness > > World::Grid() const{
+grid_type World::Grid() const{
   return grid;
 }
 
