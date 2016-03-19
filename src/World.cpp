@@ -21,6 +21,10 @@ void World::Populate(int seed){
   }
 }
 
+void World::WriteHeader(ostream &out, int EndOfDays) const{
+  out << sizex << " , " << sizey << " , " << EndOfDays << endl;
+}
+
 void World::Record(ostream &out) const{
   for (int x=0;x<sizex;x++) {
     for (int y=0;y<sizey;y++) {

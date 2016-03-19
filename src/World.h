@@ -13,6 +13,7 @@ class World {
 public:
   World(int sizex, int sizey);
   void Populate(int seed);
+  void WriteHeader(ostream &out, int EndOfDays) const;
   void Record(ostream &out) const;
   void Update();
   int Day() const;

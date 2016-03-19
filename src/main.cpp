@@ -9,7 +9,7 @@ int main(int argc, char **argv){
 
   int sizex = 10;
   int sizey = 10;
-  int EndOfDays = 4;
+  int EndOfDays = 20;
   bool Pseudorandom = false;
 
   int seed;
@@ -26,6 +26,7 @@ int main(int argc, char **argv){
   World world(sizex,sizey);
   world.Populate(seed);
 
+  world.WriteHeader(outfile,EndOfDays);
   while(world.Day() < EndOfDays){
     cout << "Day: " << world.Day() << endl;
     world.Record(outfile);
