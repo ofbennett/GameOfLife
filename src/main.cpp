@@ -7,9 +7,9 @@ using namespace std;
 
 int main(int argc, char **argv){
 
-  int sizex = 10;
-  int sizey = 10;
-  int EndOfDays = 20;
+  int sizex = 30;
+  int sizey = 30;
+  int EndOfDays = 30;
   bool Pseudorandom = false;
 
   int seed;
