@@ -5,7 +5,7 @@
 #include <cmath>
 #include <iostream>
 
-typedef int aliveness;
+typedef bool aliveness;
 
 using namespace std;
 
@@ -19,14 +19,17 @@ public:
   int Sizex() const;
   int Sizey() const;
   int Size() const;
-  vector< vector< int > > Grid() const;
-
+  vector< vector< aliveness > > Grid() const;
+  aliveness NewState(int x, int y) const;
 
 private:
   int day;
   const int sizex;
   const int sizey;
   vector< vector< aliveness > > grid;
+  vector< vector< aliveness > > next_grid;
+  aliveness alive;
+  aliveness dead;
 };
 
 #endif /* WORLD_H_ */

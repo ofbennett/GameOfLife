@@ -9,18 +9,18 @@ int main(int argc, char **argv){
 
   int sizex = 10;
   int sizey = 10;
-  int EndOfDays = 10;
-  bool SeedLife = false;
+  int EndOfDays = 4;
+  bool Pseudorandom = false;
 
   int seed;
   ofstream outfile("test.txt");
 
   cout << "Starting the Game of Life!" << endl;
 
-  if(SeedLife){
-    seed = 100;
+  if(Pseudorandom){
+    seed = 100; // Pseudorandom seed
   }else{
-    seed = static_cast<int>(time(NULL));
+    seed = static_cast<int>(time(NULL)); // Random seed
   }
 
   World world(sizex,sizey);
