@@ -7,15 +7,16 @@ using namespace std;
 
 int main(int argc, char **argv){
 
-  int sizex = 30;
-  int sizey = 30;
-  int EndOfDays = 30;
+  int sizex = 300;
+  int sizey = 300;
+  int EndOfDays = 50;
   bool Pseudorandom = false;
+  bool verbose = false;
 
   int seed;
   ofstream outfile("output.txt");
 
-  cout << "Starting the Game of Life!" << endl;
+  cout << "Running the Game of Life!" << endl;
 
   if(Pseudorandom){
     seed = 100; // Pseudorandom seed
@@ -28,7 +29,7 @@ int main(int argc, char **argv){
 
   world.WriteHeader(outfile,EndOfDays);
   while(world.Day() < EndOfDays){
-    cout << "Day: " << world.Day() << endl;
+    if(verbose){cout << "Day: " << world.Day() << endl;}
     world.Record(outfile);
     world.Update();
   }
