@@ -1,6 +1,8 @@
 #include <iostream>
 #include <fstream>
 #include <ctime>
+#include <cassert>
+#include <string>
 #include "World.h"
 
 using namespace std;
@@ -12,11 +14,34 @@ float time_calc(clock_t begin, clock_t end){
 
 int main(int argc, char **argv){
 
-  int sizex = 100;
-  int sizey = 100;
-  int EndOfDays = 100;
-  bool Pseudorandom = false;
-  bool verbose = false;
+  int sizex;
+  int sizey;
+  int EndOfDays;
+  bool Pseudorandom;
+  bool verbose;
+
+  if(argc == 1){
+    sizex = 100;
+    sizey = 100;
+    EndOfDays = 100;
+    Pseudorandom = false;
+    verbose = false;
+  }else{
+    string config_path = argv[1];
+    ifstream config_file(config_path.c_str());
+
+    string label;
+    config_file >> label >> sizex;
+    assert(label=="sizex:");
+    config_file >> label >> sizey;
+    assert(label=="sizey:");
+    config_file >> label >> EndOfDays ;
+    assert(label=="EndOfDays:");
+    config_file >> label >> Pseudorandom;
+    assert(label=="Pseudorandom:");
+    config_file >> label >> verbose ;
+    assert(label=="verbose:");
+  }
 
   int seed;
   ofstream outfile("output.txt");
