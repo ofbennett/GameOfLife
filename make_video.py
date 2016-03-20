@@ -29,4 +29,4 @@ input_fname = sys.argv[1]
 
 data = get_data(input_fname)
 create_video(data,video_fname)
-print "Video of GameOfLife output created and save to:\n{}".format(abspath(video_fname))
+print "Video of GameOfLife output created and saved to:\n{}".format(abspath(video_fname))

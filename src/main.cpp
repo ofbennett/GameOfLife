@@ -5,11 +5,16 @@
 
 using namespace std;
 
+float time_calc(clock_t begin, clock_t end){
+  float total_time = (end - begin)/static_cast<float>(CLOCKS_PER_SEC);
+  return total_time;
+}
+
 int main(int argc, char **argv){
 
-  int sizex = 300;
-  int sizey = 300;
-  int EndOfDays = 50;
+  int sizex = 100;
+  int sizey = 100;
+  int EndOfDays = 100;
   bool Pseudorandom = false;
   bool verbose = false;
 
@@ -24,6 +29,7 @@ int main(int argc, char **argv){
     seed = static_cast<int>(time(NULL)); // Random seed
   }
 
+  clock_t start = clock();
   World world(sizex,sizey);
   world.Populate(seed);
 
@@ -33,4 +39,7 @@ int main(int argc, char **argv){
     world.Record(outfile);
     world.Update();
   }
+  clock_t finish = clock();
+  cout << "The total time taken was " << time_calc(start,finish) << " seconds\n";
+  return EXIT_SUCCESS;
 }
