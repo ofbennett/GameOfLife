@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 from StringIO import StringIO as strio
 from os.path import abspath
 
-video_fname = "GOL_video.mp4"
+video_fname = "GoL_video.mp4"
 
 def get_data(input_fname):
     with open(input_fname) as data_file:
