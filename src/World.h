@@ -6,6 +6,7 @@
 #include <iostream>
 #include <cassert>
 #include <cstdlib>
+#include <stdexcept>
 
 using namespace std;
 
