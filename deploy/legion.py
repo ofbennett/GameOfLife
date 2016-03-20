@@ -24,7 +24,7 @@ def cold(branch='master'):
     with cd(env.deploy_to):
         with modules:
             run('git clone '+env.clone_url)
-            with cd('GameOfLife')
+            with cd('GameOfLife'):
                 run('git checkout '+branch)
                 run('mkdir build')
                 with cd('build'):
