@@ -35,9 +35,10 @@ def cold(branch='master'):
 
 @task
 def warm(branch='master'):
-  with cd(env.deploy_to+'/GoL/build'):
+  with cd(env.deploy_to+'/GameOfLife/build'):
         with modules:
             run('git checkout '+branch)
+            run('git reset --hard HEAD')
             run('git pull')
             run('cmake ..')
             run('make')
@@ -70,7 +71,7 @@ def wait():
 	time.sleep(20)
 
 @task
-def fetch(dir_name = 'latest_results'):
+def fetch_all(dir_name = 'latest_results'):
     with lcd(os.path.join(os.path.dirname(os.path.dirname(__file__)),'results',dir_name)):
       with cd(env.run_at):
         get('*')
