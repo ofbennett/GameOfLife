@@ -69,7 +69,20 @@ def wait():
 	time.sleep(10)
 
 @task
-def fetch():
-    with lcd(os.path.join(os.path.dirname(os.path.dirname(__file__)),'results')):
+def fetch(dir_name = 'results'):
+    with lcd(os.path.join(os.path.dirname(os.path.dirname(__file__)),dir_name)):
       with cd(env.run_at):
         get('*')
+
+@task
+def cleanup_results():
+    run('rm -rf /home/rmapofb/Scratch/GoL')
+
+@task
+def cleanup_code():
+    run('rm -rf /home/rmapofb/code/GoL')
+
+@task
+def cleanup_all():
+    run('rm -rf /home/rmapofb/Scratch/GoL')
+    run('rm -rf /home/rmapofb/code/GoL')

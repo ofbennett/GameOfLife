@@ -4,7 +4,7 @@ import numpy as np
 import matplotlib.animation as anim
 import matplotlib.pyplot as plt
 from StringIO import StringIO as strio
-from os.path import abspath
+from os.path import abspath, dirname, join
 
 video_fname = "GoL_video.mp4"
 
@@ -26,7 +26,8 @@ def create_video(data,video_fname):
     video.save(video_fname)
 
 input_fname = sys.argv[1]
+video_path = join(dirname(input_fname),video_fname)
 
 data = get_data(input_fname)
-create_video(data,video_fname)
-print "Video of GameOfLife output created and saved to:\n{}".format(abspath(video_fname))
+create_video(data,video_path)
+print "Video of GameOfLife output created and saved to:\n{}".format(video_path)

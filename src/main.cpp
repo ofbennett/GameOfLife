@@ -13,6 +13,7 @@ float time_calc(clock_t begin, clock_t end){
 }
 
 int main(int argc, char **argv){
+  clock_t start = clock();
 
   int sizex;
   int sizey;
@@ -54,7 +55,6 @@ int main(int argc, char **argv){
     seed = static_cast<int>(time(NULL)); // Random seed
   }
 
-  clock_t start = clock();
   World world(sizex,sizey);
   world.Populate(seed);
 
