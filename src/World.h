@@ -4,6 +4,7 @@
 #include <vector>
 #include <cmath>
 #include <iostream>
+#include <cassert>
 
 using namespace std;
 
@@ -14,6 +15,7 @@ class World {
 public:
   World(int sizex, int sizey);
   void Populate(int seed);
+  void PopulateFromArray(aliveness data[], int array_length);
   void WriteHeader(ostream &out, int EndOfDays) const;
   void Record(ostream &out) const;
   void Update();

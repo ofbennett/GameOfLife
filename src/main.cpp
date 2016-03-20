@@ -12,8 +12,8 @@ float time_calc(clock_t begin, clock_t end){
 
 int main(int argc, char **argv){
 
-  int sizex = 100;
-  int sizey = 100;
+  int sizex = 20;
+  int sizey = 20;
   int EndOfDays = 100;
   bool Pseudorandom = false;
   bool verbose = false;

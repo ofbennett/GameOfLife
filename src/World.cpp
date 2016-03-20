@@ -21,6 +21,16 @@ void World::Populate(int seed){
   }
 }
 
+void World::PopulateFromArray(aliveness data[],int array_length){
+  assert(sizex*sizey == array_length);
+
+  for (int x=0;x<sizex;x++) {
+    for (int y=0;y<sizey;y++) {
+        grid[x][y] = data[y + (sizey*x)];
+    }
+  }
+}
+
 void World::WriteHeader(ostream &out, int EndOfDays) const{
   out << sizex << " , " << sizey << " , " << EndOfDays << endl;
 }
@@ -101,7 +111,7 @@ aliveness World::NewState(int x, int y) const{
   }
 
   if(grid[x][y]==alive){
-    if((alive_neighbors==3)||(alive_neighbors==4)){newstate = alive;}
+    if((alive_neighbors==2)||(alive_neighbors==3)){newstate = alive;}
     else{newstate = dead;}
   }else if(grid[x][y]==dead){
     if(alive_neighbors==3){newstate = alive;}
