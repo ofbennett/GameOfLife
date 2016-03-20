@@ -3,6 +3,7 @@ from mako.template import Template
 import mako
 import os
 from contextlib import nested
+import time
 
 env.run_at="/home/rmapofb/Scratch/GoL/output"
 env.deploy_to="/home/rmapofb/code/GoL"
@@ -61,6 +62,11 @@ def sub(processes=4):
 @task
 def stat():
     run('qstat')
+
+@task
+def wait():
+  while "job-ID" in run('qstat'):
+	time.sleep(10)
 
 @task
 def fetch():
