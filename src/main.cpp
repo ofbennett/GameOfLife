@@ -26,7 +26,7 @@ int main(int argc, char **argv){
     sizey = 100;
     EndOfDays = 100;
     Pseudorandom = false;
-    verbose = false;
+    verbose = true;
   }else{
     string config_path = argv[1];
     ifstream config_file(config_path.c_str());

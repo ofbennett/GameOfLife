@@ -5,11 +5,12 @@ import os
 from contextlib import nested
 import time
 
-env.run_at="/home/rmapofb/Scratch/GoL/output"
-env.deploy_to="/home/rmapofb/code/GoL"
+env.user='rmapofb'
+
+env.run_at="/home/"+env.user+"/Scratch/GoL/output"
+env.deploy_to="/home/"+env.user+"/code/GoL"
 env.clone_url="https://github.com/ofbennett/GameOfLife.git"
 env.hosts=['legion.rc.ucl.ac.uk']
-env.user='rmapofb'
 
 modules = nested(
     prefix('module load cmake'),
@@ -84,16 +85,16 @@ def fetch_time(dir_name = 'latest_results'):
 
 @task
 def cleanup_results():
-    run('rm -rf /home/rmapofb/Scratch/GoL')
+    run('rm -rf /home/'+env.user+'/Scratch/GoL')
 
 @task
 def cleanup_code():
-    run('rm -rf /home/rmapofb/code/GoL')
+    run('rm -rf /home/'+env.user+'/code/GoL')
 
 @task
 def cleanup_all():
-    run('rm -rf /home/rmapofb/Scratch/GoL')
-    run('rm -rf /home/rmapofb/code/GoL')
+    run('rm -rf /home/'+env.user+'/Scratch/GoL')
+    run('rm -rf /home/'+env.user+'/code/GoL')
 
 @task
 def patch():
