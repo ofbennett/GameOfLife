@@ -47,7 +47,7 @@ int main(int argc, char **argv){
   int seed;
   ofstream outfile("output.txt");
 
-  cout << "Running the Game of Life!" << endl;
+  if(verbose){cout << "Running the Game of Life!" << endl;}
 
   if(Pseudorandom){
     seed = 100; // Pseudorandom seed
@@ -60,11 +60,14 @@ int main(int argc, char **argv){
 
   world.WriteHeader(outfile,EndOfDays);
   while(world.Day() < EndOfDays){
-    if(verbose){cout << "Day: " << world.Day() << endl;}
     world.Record(outfile);
     world.Update();
   }
   clock_t finish = clock();
-  cout << "The total time taken was " << time_calc(start,finish) << " seconds\n";
+  if(verbose){
+    cout << "The total time taken was " << time_calc(start,finish) << " seconds\n";
+  }else{
+    cout << time_calc(start,finish) << endl;
+  }
   return EXIT_SUCCESS;
 }

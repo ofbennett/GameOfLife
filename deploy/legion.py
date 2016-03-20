@@ -49,6 +49,7 @@ def sub(processes=4):
     template_file_path=os.path.join(os.path.dirname(__file__),'legion.sh.mko')
     script_local_path=os.path.join(os.path.dirname(__file__),'legion.sh')
     config_file_path=os.path.join(os.path.dirname(os.path.dirname(__file__)),'config.yml')
+    run('mkdir -p '+env.run_at)
     with open(template_file_path) as template:
         script=Template(template.read()).render(**env)
         with open(script_local_path,'w') as script_file:
@@ -66,13 +67,19 @@ def stat():
 @task
 def wait():
   while "job-ID" in run('qstat'):
-	time.sleep(10)
+	time.sleep(20)
 
 @task
 def fetch(dir_name = 'latest_results'):
     with lcd(os.path.join(os.path.dirname(os.path.dirname(__file__)),'results',dir_name)):
       with cd(env.run_at):
         get('*')
+
+@task
+def fetch_time(dir_name = 'latest_results'):
+    with lcd(os.path.join(os.path.dirname(os.path.dirname(__file__)),'results',dir_name)):
+      with cd(env.run_at):
+        get('GameOfLife.o*')
 
 @task
 def cleanup_results():
@@ -86,3 +93,16 @@ def cleanup_code():
 def cleanup_all():
     run('rm -rf /home/rmapofb/Scratch/GoL')
     run('rm -rf /home/rmapofb/code/GoL')
+
+@task
+def patch():
+  with cd(env.deploy_to+'/GameOfLife'):
+    local('git diff > patch.diff')
+    put('patch.diff','patch.diff')
+    with modules:
+        run('git checkout .')
+        run('git apply patch.diff')
+        with cd('build'):
+            run('cmake ..')
+            run('make')
+            run('test/test_GoL')
