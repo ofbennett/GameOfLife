@@ -69,8 +69,8 @@ def wait():
 	time.sleep(10)
 
 @task
-def fetch(dir_name = 'results'):
-    with lcd(os.path.join(os.path.dirname(os.path.dirname(__file__)),dir_name)):
+def fetch(dir_name = 'latest_results'):
+    with lcd(os.path.join(os.path.dirname(os.path.dirname(__file__)),'results',dir_name)):
       with cd(env.run_at):
         get('*')
 
