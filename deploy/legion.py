@@ -24,12 +24,13 @@ def cold(branch='master'):
     with cd(env.deploy_to):
         with modules:
             run('git clone '+env.clone_url)
-            run('mkdir build')
-            with cd('build'):
+            with cd('GameOfLife')
                 run('git checkout '+branch)
-                run('cmake .. -DCMAKE_CXX_COMPILER=mpiCC -DCMAKE_C_COMPILER=mpicc')
-                run('make')
-                run('test/test_GoL')
+                run('mkdir build')
+                with cd('build'):
+                    run('cmake .. -DCMAKE_CXX_COMPILER=mpiCC -DCMAKE_C_COMPILER=mpicc')
+                    run('make')
+                    run('test/test_GoL')
 
 @task
 def warm(branch='master'):
