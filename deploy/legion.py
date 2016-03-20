@@ -12,7 +12,7 @@ env.user='rmapofb'
 
 modules = nested(
     prefix('module load cmake'),
-    prefix('module swap compilers compilers/gnu/4.9.2')
+    prefix('module swap compilers compilers/gnu/4.9.2'),
     prefix('module swap mpi mpi/openmpi/1.10.1/gnu-4.9.2')
 )
 
@@ -24,8 +24,8 @@ def cold(branch='master'):
     with cd(env.deploy_to):
         with modules:
             run('git clone '+env.clone_url)
-            run('mkdir GoL/build')
-            with cd('GoL/build'):
+            run('mkdir build')
+            with cd('build'):
                 run('git checkout '+branch)
                 run('cmake .. -DCMAKE_CXX_COMPILER=mpiCC -DCMAKE_C_COMPILER=mpicc')
                 run('make')
