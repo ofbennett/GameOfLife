@@ -4,6 +4,7 @@
 #$ -N GameOfLife
 #$ -pe smp ${processes}
 #$ -wd ${run_at}
+#$ -ac allow=Y
 module unload compilers
 module unload mpi
 module load compilers/gnu/4.9.2

@@ -46,7 +46,7 @@ void World::Record(ostream &out) const{
 }
 
 void World::Update(){
-  #pragma omp parallel shared(next_grid)
+  #pragma omp parallel
   {
     #pragma omp for
     for (int x=0;x<sizex;x++) {
