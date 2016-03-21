@@ -30,7 +30,7 @@ def cold(branch='master'):
                 run('git checkout '+branch)
                 run('mkdir build')
                 with cd('build'):
-                    run('cmake .. -DCMAKE_CXX_COMPILER=mpiCC -DCMAKE_C_COMPILER=mpicc')
+                    run('cmake ..')
                     run('make')
                     run('test/test_GoL')
 
