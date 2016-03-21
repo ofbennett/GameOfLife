@@ -1,4 +1,5 @@
 #!/bin/bash -l
+pip install fabric
 fab legion.cold
 fab legion.sub
 fab legion.wait
