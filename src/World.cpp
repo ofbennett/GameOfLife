@@ -47,7 +47,7 @@ void World::Record(ostream &out) const{
 
 void World::Update(){
 
-  #pragma omp parallel private(temp)
+  #pragma omp parallel
   {
     #pragma omp for
     for (int x=0;x<sizex;x++) {
