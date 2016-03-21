@@ -1,6 +1,6 @@
 #!/bin/bash -l
 pip install fabric
-fab legion.cold:branch=OpenMP
+#fab legion.cold:branch=OpenMP
 
 for i in 1 8
 do
@@ -10,4 +10,4 @@ do
   fab legion.cleanup_results
 done
 
-#python graph.py
+#python make_graph.py
