@@ -21,7 +21,6 @@ def create_video(data,video_fname):
     def _animate(frame_id):
         plt.imshow(data[frame_id],interpolation="none",cmap='Greys_r')
 
-
     video = anim.FuncAnimation(fig, _animate, len(data), interval=100)
     video.save(video_fname)
 
