@@ -2,4 +2,4 @@ sizex: 600
 sizey: 600
 EndOfDays: 100
 Pseudorandom: 0
-verbose: 1
+verbose: 0
