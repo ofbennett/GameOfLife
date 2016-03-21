@@ -46,18 +46,19 @@ def warm(branch='master'):
             run('test/test_GoL')
 
 @task
-def sub(processes=4):
+def sub(processes=4,config="config.yml"):
     env.processes=processes
+    env.config=config
     template_file_path=os.path.join(os.path.dirname(__file__),'legion.sh.mko')
     script_local_path=os.path.join(os.path.dirname(__file__),'legion.sh')
-    config_file_path=os.path.join(os.path.dirname(os.path.dirname(__file__)),'config.yml')
+    config_file_path=os.path.join(os.path.dirname(os.path.dirname(__file__)),config)
     run('mkdir -p '+env.run_at)
     with open(template_file_path) as template:
         script=Template(template.read()).render(**env)
         with open(script_local_path,'w') as script_file:
             script_file.write(script)
     with cd(env.run_at):
-       put(config_file_path,'config.yml')
+       put(config_file_path,config)
     with cd(env.deploy_to):
         put(script_local_path,'legion.sh')
         run('qsub legion.sh')
