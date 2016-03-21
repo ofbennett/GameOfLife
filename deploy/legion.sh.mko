@@ -2,6 +2,7 @@
 #$ -S /bin/bash
 #$ -l h_rt=0:10:0
 #$ -N GameOfLife
+#$ -pe smp ${processes}
 #$ -wd ${run_at}
 module unload compilers
 module unload mpi
