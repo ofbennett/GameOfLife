@@ -46,16 +46,16 @@ void World::Record(ostream &out) const{
 }
 
 void World::Update(){
+
+  for (int x=0;x<sizex;x++) {
   #pragma omp parallel
   {
     #pragma omp for
-    for (int x=0;x<sizex;x++) {
-      for (int y=0;y<sizey;y++) {
-         next_grid[x][y] = NewState(x,y);
-      }
+    for (int y=0;y<sizey;y++) {
+      next_grid[x][y] = NewState(x,y);
     }
   }
-
+  }
   grid = next_grid;
   day += 1;
 }
