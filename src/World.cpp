@@ -46,9 +46,13 @@ void World::Record(ostream &out) const{
 }
 
 void World::Update(){
-  for (int x=0;x<sizex;x++) {
-    for (int y=0;y<sizey;y++) {
-       next_grid[x][y] = NewState(x,y);
+  #pragma omp parallel shared(next_grid)
+  {
+    #pragma omp for
+    for (int x=0;x<sizex;x++) {
+      for (int y=0;y<sizey;y++) {
+         next_grid[x][y] = NewState(x,y);
+      }
     }
   }
 
