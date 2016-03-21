@@ -3,17 +3,18 @@
 #include <ctime>
 #include <cassert>
 #include <string>
+#include <omp.h>
 #include "World.h"
 
 using namespace std;
 
-float time_calc(clock_t begin, clock_t end){
-  float total_time = (end - begin)/static_cast<float>(CLOCKS_PER_SEC);
+float time_calc(double begin, double end){
+  float total_time = (end - begin);
   return total_time;
 }
 
 int main(int argc, char **argv){
-  clock_t start = clock();
+  double start = omp_get_wtime();
 
   int sizex;
   int sizey;
@@ -22,8 +23,8 @@ int main(int argc, char **argv){
   bool verbose;
 
   if(argc == 1){
-    sizex = 100;
-    sizey = 100;
+    sizex = 500;
+    sizey = 500;
     EndOfDays = 100;
     Pseudorandom = false;
     verbose = true;
@@ -63,7 +64,7 @@ int main(int argc, char **argv){
     world.Record(outfile);
     world.Update();
   }
-  clock_t finish = clock();
+  double finish = omp_get_wtime();
   if(verbose){
     cout << "The total time taken was " << time_calc(start,finish) << " seconds\n";
   }else{
