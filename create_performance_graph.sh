@@ -10,4 +10,5 @@ do
   fab legion.cleanup_results
 done
 
-#python make_graph.py
+fab legion.cleanup_code
+python make_graph.py

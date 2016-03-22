@@ -24,6 +24,7 @@ def create_video(data,video_fname):
     video = anim.FuncAnimation(fig, _animate, len(data), interval=100)
     video.save(video_fname)
 
+print "Making video from output..."
 input_fname = sys.argv[1]
 video_path = join(dirname(input_fname),video_fname)
 
