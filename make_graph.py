@@ -12,9 +12,9 @@ for i in proc_nums:
 time_list = []
 for files in fname_list:
     with open(files) as f:
-        time = int(f.readline())
+        time = float(f.readline())
         time_list.append(time)
 
-graph = plt.plot(time_list, proc_nums)
+graph = plt.plot(proc_nums,time_list)
 
 plt.show(graph)
