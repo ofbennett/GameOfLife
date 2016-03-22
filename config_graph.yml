@@ -1,5 +1,5 @@
-sizex: 1000
-sizey: 1000
-EndOfDays: 100
+sizex: 2000
+sizey: 2000
+EndOfDays: 50
 Pseudorandom: 0
 verbose: 0
