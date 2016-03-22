@@ -2,7 +2,7 @@
 pip install fabric
 fab legion.cold:branch=OpenMP
 
-for i in 1 8
+for i in 1 2 3 4 6 8 10 12
 do
   fab legion.sub:processes=${i},config=config_graph.yml
   fab legion.wait

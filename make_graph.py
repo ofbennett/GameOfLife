@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 from os.path import join, dirname, abspath
 from glob import glob
 
-proc_nums = [1,8]
+proc_nums = [1,2,3,4,6,8,10,12]
 
 fname_list = []
 for i in proc_nums:
