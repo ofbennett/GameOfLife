@@ -7,6 +7,7 @@
 #include <cassert>
 #include <cstdlib>
 #include <stdexcept>
+#include <mpi.h>
 
 using namespace std;
 
