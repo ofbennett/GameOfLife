@@ -15,7 +15,9 @@ for files in fname_list:
         time = float(f.readline())
         time_list.append(time)
 
-plt.plot(proc_nums,time_list)
+plt.plot(proc_nums,time_list,marker='o')
+ymin, ymax = plt.ylim()
+plt.ylim(0,ymax)
 plt.title('Run Time vs Process Number')
 plt.xlabel('Process number')
 plt.ylabel('Run time / sec')
