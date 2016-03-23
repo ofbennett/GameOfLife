@@ -47,8 +47,8 @@ void World::WriteHeader(ostream &out, int EndOfDays) const{
 }
 
 void World::Record(ostream &out) const{
-  for (int x=1;x<sizex;x++) {
-    for (int y=1;y<sizey;y++) {
+  for (int x=1;x<sizex_local+1;x++) {
+    for (int y=1;y<sizey_local+1;y++) {
        out << grid[x][y] << " , ";
     }
     out << endl;
@@ -57,16 +57,11 @@ void World::Record(ostream &out) const{
 }
 
 void World::Update(){
-
-  #pragma omp parallel
-  {
-    #pragma omp for
-    for (int x=0;x<sizex;x++) {
-      for (int y=0;y<sizey;y++) {
+    for (int x=1;x<sizex_local+1;x++) {
+      for (int y=1;y<sizey_local+1;y++) {
         next_grid[x][y] = NewState(x,y);
       }
     }
-  }
   grid = next_grid;
   day += 1;
 }

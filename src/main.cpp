@@ -6,54 +6,9 @@
 #include <mpi.h>
 #include <sstream>
 #include "World.h"
+#include "tools.h"
 
 using namespace std;
-
-double time_calc(double begin, double end){
-  double total_time = (end - begin);
-  return total_time;
-}
-
-void Find_MPI_Dimentions(int sizex, int sizey, int mpi_size, int* mpi_dimentions){
-
-  assert(mpi_size!=0);
-
-  if(mpi_size%7==0){
-    mpi_dimentions[1] = 7;
-    mpi_dimentions[0] = mpi_size/7;
-  }else if(mpi_size%5==0){
-    mpi_dimentions[1] = 5;
-    mpi_dimentions[0] = mpi_size/5;
-  }else if(mpi_size%4==0){
-    if(mpi_size!=4){
-      mpi_dimentions[1] = 4;
-      mpi_dimentions[0] = mpi_size/4;
-    }else{
-      mpi_dimentions[1] = 2;
-      mpi_dimentions[0] = 2;
-    }
-  }else if(mpi_size%3==0){
-    mpi_dimentions[1] = 3;
-    mpi_dimentions[0] = mpi_size/3;
-  }else if(mpi_size%2==0){
-    mpi_dimentions[1] = 2;
-    mpi_dimentions[0] = mpi_size/2;
-  }else{
-    mpi_dimentions[1] = 1;
-    mpi_dimentions[0] = mpi_size;
-  }
-
-  assert(sizey%mpi_dimentions[0]==0); // No remainders
-  assert(sizex%mpi_dimentions[1]==0); // No remainders
-}
-
-void Find_Node_Coord(int rank,int* mpi_dimentions,int* node_coord){
-  // Rank increases (+1) down first column, then second, etc.
-  int rows = mpi_dimentions[0];
-  int cols = mpi_dimentions[1];
-  node_coord[1] = (rank)/rows;
-  node_coord[0] = rank - (node_coord[1]*rows);
-}
 
 int main(int argc, char **argv){
 
@@ -75,9 +30,9 @@ int main(int argc, char **argv){
   bool verbose;
 
   if(argc == 1){
-    sizex = 120;
-    sizey = 120;
-    EndOfDays = 100;
+    sizex = 10;
+    sizey = 10;
+    EndOfDays = 5;
     Pseudorandom = false;
     verbose = true;
   }else{
@@ -127,10 +82,10 @@ int main(int argc, char **argv){
   world.Populate(seed);
 
   world.WriteHeader(outfile,EndOfDays);
-  // while(world.Day() < EndOfDays){
-  //   world.Record(outfile);
-  //   world.Update();
-  // }
+  while(world.Day() < EndOfDays){
+    world.Record(outfile);
+    world.Update();
+  }
 
   // Need to barrier before measuring time to make sure all nodes are finished
   MPI_Barrier(MPI_COMM_WORLD);
