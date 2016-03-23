@@ -8,6 +8,7 @@
 #include <cstdlib>
 #include <stdexcept>
 #include <mpi.h>
+#include <memory>
 
 using namespace std;
 
