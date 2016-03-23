@@ -84,7 +84,11 @@ int main(int argc, char **argv){
   world.WriteHeader(outfile,EndOfDays);
   while(world.Day() < EndOfDays){
     world.Record(outfile);
-    world.Update();
+    world.UpdateBuffers();
+    MPI_Barrier(MPI_COMM_WORLD);
+    world.Communicate();
+    world.UnpackBuffers();
+    world.UpdateGrid();    
   }
 
   // Need to barrier before measuring time to make sure all nodes are finished

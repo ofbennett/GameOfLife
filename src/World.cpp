@@ -14,6 +14,18 @@ mpi_rows(mpi_dimentions[0]),
 mpi_cols(mpi_dimentions[1]),
 mpi_row_coord(node_coord[0]),
 mpi_col_coord(node_coord[1]),
+
+send_right_buffer(new bool[sizey_local]),
+send_left_buffer(new bool[sizey_local]),
+send_up_buffer(new bool[sizex_local]),
+send_down_buffer(new bool[sizex_local]),
+send_corner_buffer(new bool[4]),
+receive_right_buffer(new bool[sizey_local]),
+receive_left_buffer(new bool[sizey_local]),
+receive_up_buffer(new bool[sizex_local]),
+receive_down_buffer(new bool[sizex_local]),
+receive_corner_buffer(new bool[4]),
+
 grid(sizex_local+2,vector<aliveness>(sizey_local+2)),
 next_grid(sizex_local+2,vector<aliveness>(sizey_local+2)),
 alive(true),
@@ -56,7 +68,7 @@ void World::Record(ostream &out) const{
   out << endl;
 }
 
-void World::Update(){
+void World::UpdateGrid(){
     for (int x=1;x<sizex_local+1;x++) {
       for (int y=1;y<sizey_local+1;y++) {
         next_grid[x][y] = NewState(x,y);
@@ -130,4 +142,56 @@ aliveness World::NewState(int x, int y) const{
     throw logic_error("A lifeform on the grid has an aliveness which is neither alive or dead!");
   }
   return newstate;
+}
+
+void World::UpdateBuffers(){
+  UpdateLeftBuffer();
+  UpdateRightBuffer();
+  UpdateUpBuffer();
+  UpdateDownBuffer();
+  UpdateCornerBuffers();
+}
+
+void World::Communicate(){
+
+}
+
+void World::UnpackBuffers(){
+  UnpackLeftBuffer();
+  UnpackRightBuffer();
+  UnpackUpBuffer();
+  UnpackDownBuffer();
+  UnpackCornerBuffers();
+}
+
+void World::UpdateLeftBuffer(){
+
+}
+void World::UpdateRightBuffer(){
+
+}
+void World::UpdateUpBuffer(){
+
+}
+void World::UpdateDownBuffer(){
+
+}
+void World::UpdateCornerBuffers(){
+
+}
+
+void World::UnpackLeftBuffer(){
+
+}
+void World::UnpackRightBuffer(){
+
+}
+void World::UnpackUpBuffer(){
+
+}
+void World::UnpackDownBuffer(){
+
+}
+void World::UnpackCornerBuffers(){
+
 }

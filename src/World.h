@@ -21,13 +21,26 @@ public:
   void PopulateFromArray(aliveness data[], int array_length);
   void WriteHeader(ostream &out, int EndOfDays) const;
   void Record(ostream &out) const;
-  void Update();
+  void UpdateGrid();
   int Day() const;
   int Sizex() const;
   int Sizey() const;
   int Size() const;
   grid_type Grid() const;
   aliveness NewState(int x, int y) const;
+  void UpdateBuffers();
+  void Communicate();
+  void UnpackBuffers();
+  void UpdateLeftBuffer();
+  void UpdateRightBuffer();
+  void UpdateUpBuffer();
+  void UpdateDownBuffer();
+  void UpdateCornerBuffers();
+  void UnpackLeftBuffer();
+  void UnpackRightBuffer();
+  void UnpackUpBuffer();
+  void UnpackDownBuffer();
+  void UnpackCornerBuffers();
 
 private:
   int day;
@@ -43,6 +56,16 @@ private:
   const int mpi_cols;
   const int mpi_row_coord;
   const int mpi_col_coord;
+  unique_ptr<bool> send_right_buffer;
+  unique_ptr<bool> send_left_buffer;
+  unique_ptr<bool> send_up_buffer;
+  unique_ptr<bool> send_down_buffer;
+  unique_ptr<bool> send_corner_buffer;
+  unique_ptr<bool> receive_right_buffer;
+  unique_ptr<bool> receive_left_buffer;
+  unique_ptr<bool> receive_up_buffer;
+  unique_ptr<bool> receive_down_buffer;
+  unique_ptr<bool> receive_corner_buffer;
   grid_type grid;
   grid_type next_grid;
   aliveness alive;
