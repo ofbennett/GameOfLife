@@ -30,8 +30,8 @@ int main(int argc, char **argv){
   bool verbose;
 
   if(argc == 1){
-    sizex = 10;
-    sizey = 10;
+    sizex = 120;
+    sizey = 120;
     EndOfDays = 5;
     Pseudorandom = false;
     verbose = true;
@@ -88,7 +88,7 @@ int main(int argc, char **argv){
     MPI_Barrier(MPI_COMM_WORLD);
     world.Communicate();
     world.UnpackBuffers();
-    world.UpdateGrid();    
+    world.UpdateGrid();
   }
 
   // Need to barrier before measuring time to make sure all nodes are finished

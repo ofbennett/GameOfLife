@@ -42,6 +42,8 @@ public:
   void UnpackDownBuffer();
   void UnpackCornerBuffers();
   void SetGrid(int x, int y, aliveness val);
+  int RankFromCoord(int row, int col);
+
 
 private:
   int day;

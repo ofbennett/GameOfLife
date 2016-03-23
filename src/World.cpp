@@ -153,14 +153,23 @@ void World::UpdateBuffers(){
 }
 
 void World::Communicate(){
-  int up = 0;
-  int down = 0;
-  int left = 0;
-  int right = 0;
-  int up_left = 0;
-  int up_right = 0;
-  int down_left = 0;
-  int down_right = 0;
+  int up = RankFromCoord(mpi_row_coord-1,mpi_col_coord);
+  int down = RankFromCoord(mpi_row_coord+1,mpi_col_coord);
+  int left = RankFromCoord(mpi_row_coord,mpi_col_coord-1);
+  int right = RankFromCoord(mpi_row_coord,mpi_col_coord+1);
+  int up_left = RankFromCoord(mpi_row_coord-1,mpi_col_coord-1);
+  int up_right = RankFromCoord(mpi_row_coord-1,mpi_col_coord+1);
+  int down_left = RankFromCoord(mpi_row_coord+1,mpi_col_coord-1);
+  int down_right = RankFromCoord(mpi_row_coord+1,mpi_col_coord+1);
+
+  // int up = 0;
+  // int down = 0;
+  // int left = 0;
+  // int right = 0;
+  // int up_left = 0;
+  // int up_right = 0;
+  // int down_left = 0;
+  // int down_right = 0;
 
 // Comms with node above
   MPI_Sendrecv(send_up_buffer.get(),sizex_local,MPI_INT,up,rank,
@@ -276,4 +285,21 @@ void World::UnpackCornerBuffers(){
 
 void World::SetGrid(int x, int y, aliveness val){
   grid[x][y] = val;
+}
+
+int World::RankFromCoord(int row, int col){
+  if(row>mpi_rows-1){
+    row = 0;
+  }
+  if(row<0){
+    row = mpi_rows-1;
+  }
+  if(col>mpi_cols-1){
+    col = 0;
+  }
+  if(col<0){
+    col = mpi_cols-1;
+  }
+  int neighbor_rank = (col*mpi_rows) + row;
+  return neighbor_rank;
 }
