@@ -41,6 +41,7 @@ public:
   void UnpackUpBuffer();
   void UnpackDownBuffer();
   void UnpackCornerBuffers();
+  void SetGrid(int x, int y, aliveness val);
 
 private:
   int day;
@@ -56,16 +57,16 @@ private:
   const int mpi_cols;
   const int mpi_row_coord;
   const int mpi_col_coord;
-  unique_ptr<bool> send_right_buffer;
-  unique_ptr<bool> send_left_buffer;
-  unique_ptr<bool> send_up_buffer;
-  unique_ptr<bool> send_down_buffer;
-  unique_ptr<bool> send_corner_buffer;
-  unique_ptr<bool> receive_right_buffer;
-  unique_ptr<bool> receive_left_buffer;
-  unique_ptr<bool> receive_up_buffer;
-  unique_ptr<bool> receive_down_buffer;
-  unique_ptr<bool> receive_corner_buffer;
+  unique_ptr<aliveness[]> send_right_buffer;
+  unique_ptr<aliveness[]> send_left_buffer;
+  unique_ptr<aliveness[]> send_up_buffer;
+  unique_ptr<aliveness[]> send_down_buffer;
+  unique_ptr<aliveness[]> send_corner_buffer;
+  unique_ptr<aliveness[]> receive_right_buffer;
+  unique_ptr<aliveness[]> receive_left_buffer;
+  unique_ptr<aliveness[]> receive_up_buffer;
+  unique_ptr<aliveness[]> receive_down_buffer;
+  unique_ptr<aliveness[]> receive_corner_buffer;
   grid_type grid;
   grid_type next_grid;
   aliveness alive;

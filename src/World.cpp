@@ -15,16 +15,16 @@ mpi_cols(mpi_dimentions[1]),
 mpi_row_coord(node_coord[0]),
 mpi_col_coord(node_coord[1]),
 
-send_right_buffer(new bool[sizey_local]),
-send_left_buffer(new bool[sizey_local]),
-send_up_buffer(new bool[sizex_local]),
-send_down_buffer(new bool[sizex_local]),
-send_corner_buffer(new bool[4]),
-receive_right_buffer(new bool[sizey_local]),
-receive_left_buffer(new bool[sizey_local]),
-receive_up_buffer(new bool[sizex_local]),
-receive_down_buffer(new bool[sizex_local]),
-receive_corner_buffer(new bool[4]),
+send_right_buffer(new aliveness[sizey_local]),
+send_left_buffer(new aliveness[sizey_local]),
+send_up_buffer(new aliveness[sizex_local]),
+send_down_buffer(new aliveness[sizex_local]),
+send_corner_buffer(new aliveness[4]),
+receive_right_buffer(new aliveness[sizey_local]),
+receive_left_buffer(new aliveness[sizey_local]),
+receive_up_buffer(new aliveness[sizex_local]),
+receive_down_buffer(new aliveness[sizex_local]),
+receive_corner_buffer(new aliveness[4]),
 
 grid(sizex_local+2,vector<aliveness>(sizey_local+2)),
 next_grid(sizex_local+2,vector<aliveness>(sizey_local+2)),
@@ -165,19 +165,30 @@ void World::UnpackBuffers(){
 }
 
 void World::UpdateLeftBuffer(){
-
+  for (int y=1;y<sizey_local+1;y++){
+    send_left_buffer[y-1] = grid[1][y];
+  }
 }
 void World::UpdateRightBuffer(){
-
+  for (int y=1;y<sizey_local+1;y++){
+    send_right_buffer[y-1] = grid[sizex_halo-2][y];
+  }
 }
 void World::UpdateUpBuffer(){
-
+  for (int x=1;x<sizex_local+1;x++){
+    send_up_buffer[x-1] = grid[x][1];
+  }
 }
 void World::UpdateDownBuffer(){
-
+  for (int x=1;x<sizex_local+1;x++){
+    send_down_buffer[x-1] = grid[x][sizey_halo-2];
+  }
 }
 void World::UpdateCornerBuffers(){
-
+  send_corner_buffer[0] = grid[1][1];
+  send_corner_buffer[1] = grid[sizex_halo-2][1];
+  send_corner_buffer[2] = grid[1][sizey_halo-2];
+  send_corner_buffer[3] = grid[sizex_halo-2][sizey_halo-2];
 }
 
 void World::UnpackLeftBuffer(){
@@ -194,4 +205,8 @@ void World::UnpackDownBuffer(){
 }
 void World::UnpackCornerBuffers(){
 
+}
+
+void World::SetGrid(int x, int y, aliveness val){
+  grid[x][y] = val;
 }
