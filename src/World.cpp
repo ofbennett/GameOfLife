@@ -153,6 +153,54 @@ void World::UpdateBuffers(){
 }
 
 void World::Communicate(){
+  int up = 0;
+  int down = 0;
+  int left = 0;
+  int right = 0;
+  int up_left = 0;
+  int up_right = 0;
+  int down_left = 0;
+  int down_right = 0;
+
+// Comms with node above
+  MPI_Sendrecv(send_up_buffer.get(),sizex_local,MPI_INT,up,rank,
+              receive_up_buffer.get(),sizex_local,MPI_INT,up,rank,
+              MPI_COMM_WORLD,MPI_STATUS_IGNORE);
+
+// Comms with node below
+  MPI_Sendrecv(send_down_buffer.get(),sizex_local,MPI_INT,down,rank,
+              receive_down_buffer.get(),sizex_local,MPI_INT,down,rank,
+              MPI_COMM_WORLD,MPI_STATUS_IGNORE);
+
+// Comms with node on left
+  MPI_Sendrecv(send_left_buffer.get(),sizey_local,MPI_INT,left,rank,
+              receive_left_buffer.get(),sizey_local,MPI_INT,left,rank,
+              MPI_COMM_WORLD,MPI_STATUS_IGNORE);
+
+// Comms with node on right
+  MPI_Sendrecv(send_right_buffer.get(),sizey_local,MPI_INT,right,rank,
+              receive_right_buffer.get(),sizey_local,MPI_INT,right,rank,
+              MPI_COMM_WORLD,MPI_STATUS_IGNORE);
+
+// Comms with node above/left
+  MPI_Sendrecv(send_corner_buffer.get(),1,MPI_INT,up_left,rank,
+              receive_corner_buffer.get()+3,1,MPI_INT,up_left,rank,
+              MPI_COMM_WORLD,MPI_STATUS_IGNORE);
+
+// Comms with node above/right
+  MPI_Sendrecv(send_corner_buffer.get()+1,1,MPI_INT,up_right,rank,
+              receive_corner_buffer.get()+2,1,MPI_INT,up_right,rank,
+              MPI_COMM_WORLD,MPI_STATUS_IGNORE);
+
+// Comms with node on below/left
+  MPI_Sendrecv(send_corner_buffer.get()+2,1,MPI_INT,down_left,rank,
+              receive_corner_buffer.get()+1,1,MPI_INT,down_left,rank,
+              MPI_COMM_WORLD,MPI_STATUS_IGNORE);
+
+// Comms with node on below/right
+  MPI_Sendrecv(send_corner_buffer.get()+3,1,MPI_INT,down_right,rank,
+              receive_corner_buffer.get(),1,MPI_INT,down_right,rank,
+              MPI_COMM_WORLD,MPI_STATUS_IGNORE);
 
 }
 
@@ -169,21 +217,25 @@ void World::UpdateLeftBuffer(){
     send_left_buffer[y-1] = grid[1][y];
   }
 }
+
 void World::UpdateRightBuffer(){
   for (int y=1;y<sizey_local+1;y++){
     send_right_buffer[y-1] = grid[sizex_halo-2][y];
   }
 }
+
 void World::UpdateUpBuffer(){
   for (int x=1;x<sizex_local+1;x++){
     send_up_buffer[x-1] = grid[x][1];
   }
 }
+
 void World::UpdateDownBuffer(){
   for (int x=1;x<sizex_local+1;x++){
     send_down_buffer[x-1] = grid[x][sizey_halo-2];
   }
 }
+
 void World::UpdateCornerBuffers(){
   send_corner_buffer[0] = grid[1][1];
   send_corner_buffer[1] = grid[sizex_halo-2][1];
@@ -196,21 +248,25 @@ void World::UnpackLeftBuffer(){
     SetGrid(0,y,receive_left_buffer[y-1]);
   }
 }
+
 void World::UnpackRightBuffer(){
   for (int y=1;y<sizey_local+1;y++){
     SetGrid(sizex_halo-1,y,receive_right_buffer[y-1]);
   }
 }
+
 void World::UnpackUpBuffer(){
   for (int x=1;x<sizex_local+1;x++){
     SetGrid(x,0,receive_up_buffer[x-1]);
   }
 }
+
 void World::UnpackDownBuffer(){
   for (int x=1;x<sizex_local+1;x++){
     SetGrid(x,sizey_halo-1,receive_down_buffer[x-1]);
   }
 }
+
 void World::UnpackCornerBuffers(){
   SetGrid(0,0,receive_corner_buffer[0]);
   SetGrid(sizex_halo-1,0,receive_corner_buffer[1]);

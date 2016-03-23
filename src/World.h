@@ -11,7 +11,7 @@
 
 using namespace std;
 
-typedef bool aliveness;
+typedef int aliveness;
 typedef vector< vector< aliveness > > grid_type;
 
 class World {
