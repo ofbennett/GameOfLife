@@ -1,9 +1,15 @@
 #include "World.h"
 
-World::World(int sizex, int sizey):
+World::World(int sizex, int sizey, int rank, int mpi_size, int* mpi_dimentions):
 day(0),
 sizex(sizex),
 sizey(sizey),
+sizex_local(sizex/mpi_dimentions[0]),
+sizey_local(sizey/mpi_dimentions[1]),
+rank(rank),
+mpi_size(mpi_size),
+mpi_rows(mpi_dimentions[0]),
+mpi_cols(mpi_dimentions[1]),
 grid(sizex,vector<aliveness>(sizey)),
 next_grid(sizex,vector<aliveness>(sizey)),
 alive(true),

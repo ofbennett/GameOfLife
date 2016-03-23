@@ -9,15 +9,26 @@
 
 using namespace std;
 
-float time_calc(clock_t begin, clock_t end){
-  float total_time = (end - begin)/static_cast<float>(CLOCKS_PER_SEC);
+double time_calc(double begin, double end){
+  double total_time = (end - begin);
   return total_time;
 }
 
+void Find_MPI_Dimentions(int sizex, int sizey, int mpi_size, int* mpi_dimentions){
+
+  mpi_dimentions[0] = 2;
+  mpi_dimentions[1] = 5;
+
+  assert(sizey%mpi_dimentions[0]==0); // No remainders
+  assert(sizex%mpi_dimentions[1]==0); // No remainders
+}
+
 int main(int argc, char **argv){
-  clock_t start = clock();
 
   MPI_Init (&argc, &argv);
+  // Need to barrier before measuring time to make sure all nodes start together
+  MPI_Barrier(MPI_COMM_WORLD);
+  double start = MPI_Wtime();
   int rank, mpi_size;
   MPI_Comm_rank (MPI_COMM_WORLD, &rank);
   MPI_Comm_size (MPI_COMM_WORLD, &mpi_size);
@@ -68,7 +79,9 @@ int main(int argc, char **argv){
     seed = static_cast<int>(time(NULL)); // Random seed
   }
 
-//  World world(sizex,sizey,rank,mpi_size);
+  int mpi_dimentions[] = {0,0};
+  Find_MPI_Dimentions(sizex,sizey,mpi_size,mpi_dimentions);
+  World world(sizex,sizey,rank,mpi_size,mpi_dimentions);
   // world.Populate(seed);
   //
   // world.WriteHeader(outfile,EndOfDays);
@@ -77,11 +90,15 @@ int main(int argc, char **argv){
   //   world.Update();
   // }
 
-  clock_t finish = clock();
+  // Need to barrier before measuring time to make sure all nodes are finished
+  MPI_Barrier(MPI_COMM_WORLD);
+  double finish = MPI_Wtime();
   if(verbose){
     cout << "The total time taken by rank " << rank << " was " << time_calc(start,finish) << " seconds\n";
-  }else{
-    cout << time_calc(start,finish) << endl;
+  }
+  if(rank==0){
+    ofstream timefile("time.txt");
+    timefile << time_calc(start,finish);
   }
   MPI_Finalize();
   return EXIT_SUCCESS;

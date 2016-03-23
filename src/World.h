@@ -16,7 +16,7 @@ typedef vector< vector< aliveness > > grid_type;
 
 class World {
 public:
-  World(int sizex, int sizey);
+  World(int sizex, int sizey, int rank, int mpi_size,int* mpi_dimentions);
   void Populate(int seed);
   void PopulateFromArray(aliveness data[], int array_length);
   void WriteHeader(ostream &out, int EndOfDays) const;
@@ -32,7 +32,13 @@ public:
 private:
   int day;
   const int sizex;
+  const int sizex_local;
   const int sizey;
+  const int sizey_local;
+  const int rank;
+  const int mpi_size;
+  const int mpi_rows;
+  const int mpi_cols;
   grid_type grid;
   grid_type next_grid;
   aliveness alive;
