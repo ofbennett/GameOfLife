@@ -192,19 +192,30 @@ void World::UpdateCornerBuffers(){
 }
 
 void World::UnpackLeftBuffer(){
-
+  for (int y=1;y<sizey_local+1;y++){
+    SetGrid(0,y,receive_left_buffer[y-1]);
+  }
 }
 void World::UnpackRightBuffer(){
-
+  for (int y=1;y<sizey_local+1;y++){
+    SetGrid(sizex_halo-1,y,receive_right_buffer[y-1]);
+  }
 }
 void World::UnpackUpBuffer(){
-
+  for (int x=1;x<sizex_local+1;x++){
+    SetGrid(x,0,receive_up_buffer[x-1]);
+  }
 }
 void World::UnpackDownBuffer(){
-
+  for (int x=1;x<sizex_local+1;x++){
+    SetGrid(x,sizey_halo-1,receive_down_buffer[x-1]);
+  }
 }
 void World::UnpackCornerBuffers(){
-
+  SetGrid(0,0,receive_corner_buffer[0]);
+  SetGrid(sizex_halo-1,0,receive_corner_buffer[1]);
+  SetGrid(0,sizey_halo-1,receive_corner_buffer[2]);
+  SetGrid(sizex_halo-1,sizey_halo-1,receive_corner_buffer[3]);
 }
 
 void World::SetGrid(int x, int y, aliveness val){
