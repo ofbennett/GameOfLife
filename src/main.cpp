@@ -3,18 +3,27 @@
 #include <ctime>
 #include <cassert>
 #include <string>
-//#include <omp.h>
+#include <mpi.h>
+#include <sstream>
 #include "World.h"
 
 using namespace std;
 
-// float time_calc(double begin, double end){
-//   float total_time = (end - begin);
-//   return total_time;
-// }
+float time_calc(clock_t begin, clock_t end){
+  float total_time = (end - begin)/static_cast<float>(CLOCKS_PER_SEC);
+  return total_time;
+}
 
 int main(int argc, char **argv){
-  //double start = omp_get_wtime();
+  clock_t start = clock();
+
+  MPI_Init (&argc, &argv);
+  int rank, mpi_size;
+  MPI_Comm_rank (MPI_COMM_WORLD, &rank);
+  MPI_Comm_size (MPI_COMM_WORLD, &mpi_size);
+
+  cout << "I am rank " << rank << endl;
+  cout << "There are " << mpi_size << " computers being used in total" << endl;
 
   int sizex;
   int sizey;
@@ -45,8 +54,11 @@ int main(int argc, char **argv){
     assert(label=="verbose:");
   }
 
+  ostringstream fname;
+  fname << rank << "output.txt" << flush;
+
   int seed;
-  ofstream outfile("output.txt");
+  ofstream outfile(fname.str().c_str());
 
   if(verbose){cout << "Running the Game of Life!" << endl;}
 
@@ -56,19 +68,21 @@ int main(int argc, char **argv){
     seed = static_cast<int>(time(NULL)); // Random seed
   }
 
-  World world(sizex,sizey);
-  world.Populate(seed);
-
-  world.WriteHeader(outfile,EndOfDays);
-  while(world.Day() < EndOfDays){
-    world.Record(outfile);
-    world.Update();
-  }
-  // double finish = omp_get_wtime();
-  // if(verbose){
-  //   cout << "The total time taken was " << time_calc(start,finish) << " seconds\n";
-  // }else{
-  //   cout << time_calc(start,finish) << endl;
+//  World world(sizex,sizey,rank,mpi_size);
+  // world.Populate(seed);
+  //
+  // world.WriteHeader(outfile,EndOfDays);
+  // while(world.Day() < EndOfDays){
+  //   world.Record(outfile);
+  //   world.Update();
   // }
+
+  clock_t finish = clock();
+  if(verbose){
+    cout << "The total time taken by rank " << rank << " was " << time_calc(start,finish) << " seconds\n";
+  }else{
+    cout << time_calc(start,finish) << endl;
+  }
+  MPI_Finalize();
   return EXIT_SUCCESS;
 }
