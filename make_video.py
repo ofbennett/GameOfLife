@@ -12,7 +12,7 @@ def get_data(input_fname):
     with open(input_fname) as data_file:
         line = data_file.readline()
         header = np.genfromtxt(strio(line),delimiter=",",dtype=int)
-        xsize, ysize, frames = header
+        xsize, ysize, frames, mpi_row_coord, mpi_col_coord = header
         data = np.fromfile(data_file, int, xsize*ysize*frames, ",")
     return data.reshape([frames,xsize,ysize])
 

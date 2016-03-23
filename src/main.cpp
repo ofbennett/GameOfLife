@@ -30,9 +30,9 @@ int main(int argc, char **argv){
   bool verbose;
 
   if(argc == 1){
-    sizex = 120;
-    sizey = 120;
-    EndOfDays = 5;
+    sizex = 100;
+    sizey = 100;
+    EndOfDays = 100;
     Pseudorandom = false;
     verbose = true;
   }else{
