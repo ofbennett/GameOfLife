@@ -16,8 +16,29 @@ double time_calc(double begin, double end){
 
 void Find_MPI_Dimentions(int sizex, int sizey, int mpi_size, int* mpi_dimentions){
 
-  mpi_dimentions[0] = 2;
-  mpi_dimentions[1] = 5;
+  assert(mpi_size!=0);
+
+  if(mpi_size%5==0){
+    mpi_dimentions[0] = 5;
+    mpi_dimentions[1] = mpi_size/5;
+  }else if(mpi_size%4==0){
+    if(mpi_size!=4){
+      mpi_dimentions[0] = 4;
+      mpi_dimentions[1] = mpi_size/4;
+    }else{
+      mpi_dimentions[0] = 2;
+      mpi_dimentions[1] = 2;
+    }
+  }else if(mpi_size%3==0){
+    mpi_dimentions[0] = 3;
+    mpi_dimentions[1] = mpi_size/3;
+  }else if(mpi_size%2==0){
+    mpi_dimentions[0] = 2;
+    mpi_dimentions[1] = mpi_size/2;
+  }else{
+    mpi_dimentions[0] = 1;
+    mpi_dimentions[1] = mpi_size;
+  }
 
   assert(sizey%mpi_dimentions[0]==0); // No remainders
   assert(sizex%mpi_dimentions[1]==0); // No remainders
@@ -43,8 +64,8 @@ int main(int argc, char **argv){
   bool verbose;
 
   if(argc == 1){
-    sizex = 500;
-    sizey = 500;
+    sizex = 120;
+    sizey = 120;
     EndOfDays = 100;
     Pseudorandom = false;
     verbose = true;
