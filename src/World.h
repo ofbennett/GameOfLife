@@ -33,8 +33,10 @@ private:
   int day;
   const int sizex;
   const int sizex_local;
+  const int sizex_halo;
   const int sizey;
   const int sizey_local;
+  const int sizey_halo;
   const int rank;
   const int mpi_size;
   const int mpi_rows;

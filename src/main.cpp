@@ -18,7 +18,10 @@ void Find_MPI_Dimentions(int sizex, int sizey, int mpi_size, int* mpi_dimentions
 
   assert(mpi_size!=0);
 
-  if(mpi_size%5==0){
+  if(mpi_size%7==0){
+    mpi_dimentions[0] = 7;
+    mpi_dimentions[1] = mpi_size/7;
+  }else if(mpi_size%5==0){
     mpi_dimentions[0] = 5;
     mpi_dimentions[1] = mpi_size/5;
   }else if(mpi_size%4==0){
@@ -103,7 +106,7 @@ int main(int argc, char **argv){
   int mpi_dimentions[] = {0,0};
   Find_MPI_Dimentions(sizex,sizey,mpi_size,mpi_dimentions);
   World world(sizex,sizey,rank,mpi_size,mpi_dimentions);
-  // world.Populate(seed);
+  world.Populate(seed);
   //
   // world.WriteHeader(outfile,EndOfDays);
   // while(world.Day() < EndOfDays){
@@ -115,7 +118,7 @@ int main(int argc, char **argv){
   MPI_Barrier(MPI_COMM_WORLD);
   double finish = MPI_Wtime();
   if(verbose){
-    cout << "The total time taken by rank " << rank << " was " << time_calc(start,finish) << " seconds\n";
+    cout << "The time taken by rank " << rank << " was " << time_calc(start,finish) << " seconds\n";
   }
   if(rank==0){
     ofstream timefile("time.txt");

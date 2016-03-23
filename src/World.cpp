@@ -4,14 +4,16 @@ World::World(int sizex, int sizey, int rank, int mpi_size, int* mpi_dimentions):
 day(0),
 sizex(sizex),
 sizey(sizey),
-sizex_local(sizex/mpi_dimentions[0]),
-sizey_local(sizey/mpi_dimentions[1]),
+sizex_local(sizex/mpi_dimentions[1]),
+sizey_local(sizey/mpi_dimentions[0]),
+sizex_halo((sizex/mpi_dimentions[1])+2),
+sizey_halo((sizey/mpi_dimentions[0])+2),
 rank(rank),
 mpi_size(mpi_size),
 mpi_rows(mpi_dimentions[0]),
 mpi_cols(mpi_dimentions[1]),
-grid(sizex,vector<aliveness>(sizey)),
-next_grid(sizex,vector<aliveness>(sizey)),
+grid(sizex_local+2,vector<aliveness>(sizey_local+2)),
+next_grid(sizex_local+2,vector<aliveness>(sizey_local+2)),
 alive(true),
 dead(false)
 {
@@ -20,8 +22,8 @@ dead(false)
 
 void World::Populate(int seed){
   srand(seed);
-  for (int x=0;x<sizex;x++) {
-    for (int y=0;y<sizey;y++) {
+  for (int x=0;x<sizex_halo;x++) {
+    for (int y=0;y<sizey_halo;y++) {
         grid[x][y] = rand()%2;
     }
   }
