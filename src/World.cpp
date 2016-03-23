@@ -1,6 +1,6 @@
 #include "World.h"
 
-World::World(int sizex, int sizey, int rank, int mpi_size, int* mpi_dimentions):
+World::World(int sizex, int sizey, int rank, int mpi_size, int* mpi_dimentions,int* node_coord):
 day(0),
 sizex(sizex),
 sizey(sizey),
@@ -12,6 +12,8 @@ rank(rank),
 mpi_size(mpi_size),
 mpi_rows(mpi_dimentions[0]),
 mpi_cols(mpi_dimentions[1]),
+mpi_row_coord(node_coord[0]),
+mpi_col_coord(node_coord[1]),
 grid(sizex_local+2,vector<aliveness>(sizey_local+2)),
 next_grid(sizex_local+2,vector<aliveness>(sizey_local+2)),
 alive(true),
@@ -29,6 +31,7 @@ void World::Populate(int seed){
   }
 }
 
+// To be MPI updated
 void World::PopulateFromArray(aliveness data[],int array_length){
   assert(sizex*sizey == array_length);
 
@@ -40,12 +43,12 @@ void World::PopulateFromArray(aliveness data[],int array_length){
 }
 
 void World::WriteHeader(ostream &out, int EndOfDays) const{
-  out << sizex << " , " << sizey << " , " << EndOfDays << endl;
+  out << sizex_local << " , " << sizey_local << " , " << EndOfDays << " , " << mpi_row_coord << " , " << mpi_col_coord << endl;
 }
 
 void World::Record(ostream &out) const{
-  for (int x=0;x<sizex;x++) {
-    for (int y=0;y<sizey;y++) {
+  for (int x=1;x<sizex;x++) {
+    for (int y=1;y<sizey;y++) {
        out << grid[x][y] << " , ";
     }
     out << endl;
