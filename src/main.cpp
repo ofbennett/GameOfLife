@@ -32,7 +32,7 @@ int main(int argc, char **argv){
   if(argc == 1){
     sizex = 100;
     sizey = 100;
-    EndOfDays = 100;
+    EndOfDays = 5;
     Pseudorandom = false;
     verbose = true;
   }else{
@@ -66,7 +66,7 @@ int main(int argc, char **argv){
     seed = static_cast<int>(time(NULL)); // Random seed
   }
 
-  // mpi_size = 12;
+  // mpi_size = 16;
   // rank = 2;
   int mpi_dimentions[] = {0,0};
   int node_coord[] = {0,0};

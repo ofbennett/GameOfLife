@@ -14,7 +14,6 @@ mpi_rows(mpi_dimentions[0]),
 mpi_cols(mpi_dimentions[1]),
 mpi_row_coord(node_coord[0]),
 mpi_col_coord(node_coord[1]),
-
 send_right_buffer(new aliveness[sizey_local]),
 send_left_buffer(new aliveness[sizey_local]),
 send_up_buffer(new aliveness[sizex_local]),
@@ -25,18 +24,6 @@ receive_left_buffer(new aliveness[sizey_local]),
 receive_up_buffer(new aliveness[sizex_local]),
 receive_down_buffer(new aliveness[sizex_local]),
 receive_corner_buffer(new aliveness[4]),
-
-// send_right_buffer(new int[sizey_local]),
-// send_left_buffer(new int[sizey_local]),
-// send_up_buffer(new int[sizex_local]),
-// send_down_buffer(new int[sizex_local]),
-// send_corner_buffer(new int[4]),
-// receive_right_buffer(new int[sizey_local]),
-// receive_left_buffer(new int[sizey_local]),
-// receive_up_buffer(new int[sizex_local]),
-// receive_down_buffer(new int[sizex_local]),
-// receive_corner_buffer(new int[4]),
-
 grid(sizex_local+2,vector<aliveness>(sizey_local+2)),
 next_grid(sizex_local+2,vector<aliveness>(sizey_local+2)),
 alive(true),
@@ -182,45 +169,79 @@ void World::Communicate(){
   // int down_left = 0;
   // int down_right = 0;
 
-// Comms with node above
-  MPI_Sendrecv(send_up_buffer.get(),sizex_local,MPI_INT,up,rank,
-              receive_up_buffer.get(),sizex_local,MPI_INT,up,rank,
-              MPI_COMM_WORLD,MPI_STATUS_IGNORE);
+  // cout << "up: " << up << endl;
+  // cout << "down: " << down << endl;
+  // cout << "left: " << left << endl;
+  // cout << "right: " << right << endl;
+  // cout << "up/left: " << up_left << endl;
+  // cout << "up/right: " << up_right << endl;
+  // cout << "down/left: " << down_left << endl;
+  // cout << "down/right: " << down_right << endl;
 
-// Comms with node below
-  MPI_Sendrecv(send_down_buffer.get(),sizex_local,MPI_INT,down,rank,
-              receive_down_buffer.get(),sizex_local,MPI_INT,down,rank,
-              MPI_COMM_WORLD,MPI_STATUS_IGNORE);
+// int before = rank-1;
+// int after = rank+1;
+// if(rank+1>mpi_size-1){after=0;}
+// if(rank-1<0){before=mpi_size-1;}
 
-// Comms with node on left
-  MPI_Sendrecv(send_left_buffer.get(),sizey_local,MPI_INT,left,rank,
-              receive_left_buffer.get(),sizey_local,MPI_INT,left,rank,
-              MPI_COMM_WORLD,MPI_STATUS_IGNORE);
+if(rank==1){
+MPI_Sendrecv(send_up_buffer.get(),sizex_local,MPI_INT,2,rank,
+            receive_down_buffer.get(),sizex_local,MPI_INT,2,rank,
+            MPI_COMM_WORLD,MPI_STATUS_IGNORE);
+}
 
-// Comms with node on right
-  MPI_Sendrecv(send_right_buffer.get(),sizey_local,MPI_INT,right,rank,
-              receive_right_buffer.get(),sizey_local,MPI_INT,right,rank,
+if(rank==2){
+  MPI_Sendrecv(send_up_buffer.get(),sizex_local,MPI_INT,1,rank,
+              receive_down_buffer.get(),sizex_local,MPI_INT,1,rank,
               MPI_COMM_WORLD,MPI_STATUS_IGNORE);
+}
 
-// Comms with node above/left
-  MPI_Sendrecv(send_corner_buffer.get(),1,MPI_INT,up_left,rank,
-              receive_corner_buffer.get()+3,1,MPI_INT,up_left,rank,
-              MPI_COMM_WORLD,MPI_STATUS_IGNORE);
-
-// Comms with node above/right
-  MPI_Sendrecv(send_corner_buffer.get()+1,1,MPI_INT,up_right,rank,
-              receive_corner_buffer.get()+2,1,MPI_INT,up_right,rank,
-              MPI_COMM_WORLD,MPI_STATUS_IGNORE);
-
-// Comms with node on below/left
-  MPI_Sendrecv(send_corner_buffer.get()+2,1,MPI_INT,down_left,rank,
-              receive_corner_buffer.get()+1,1,MPI_INT,down_left,rank,
-              MPI_COMM_WORLD,MPI_STATUS_IGNORE);
-
-// Comms with node on below/right
-  MPI_Sendrecv(send_corner_buffer.get()+3,1,MPI_INT,down_right,rank,
-              receive_corner_buffer.get(),1,MPI_INT,down_right,rank,
-              MPI_COMM_WORLD,MPI_STATUS_IGNORE);
+// Send buffers up and receive from below
+// MPI_Sendrecv(send_up_buffer.get(),sizex_local,MPI_INT,up,rank,
+//             receive_down_buffer.get(),sizex_local,MPI_INT,down,rank,
+//             MPI_COMM_WORLD,MPI_STATUS_IGNORE);
+//
+// cout << "send: " << up << endl;
+// cout << "receive: " << down << endl;
+// // Send buffers down and receive from above
+//   MPI_Sendrecv(send_down_buffer.get(),sizex_local,MPI_INT,down,rank,
+//               receive_up_buffer.get(),sizex_local,MPI_INT,up,rank,
+//               MPI_COMM_WORLD,MPI_STATUS_IGNORE);
+//
+// cout << "send: " << down << endl;
+// cout << "receive: " << up << endl;
+// // Send buffers right and receive from left
+//   MPI_Sendrecv(send_right_buffer.get(),sizey_local,MPI_INT,right,rank,
+//               receive_left_buffer.get(),sizey_local,MPI_INT,left,rank,
+//               MPI_COMM_WORLD,MPI_STATUS_IGNORE);
+//
+// cout << "send: " << right << endl;
+// cout << "receive: " << left << endl;
+// // Send buffers left and receive from right
+//   MPI_Sendrecv(send_left_buffer.get(),sizey_local,MPI_INT,left,rank,
+//               receive_right_buffer.get(),sizey_local,MPI_INT,right,rank,
+//               MPI_COMM_WORLD,MPI_STATUS_IGNORE);
+//
+// cout << "send: " << left << endl;
+// cout << "receive: " << right << endl;
+// // Send corner buffers up/left and receive from below/right
+//   MPI_Sendrecv(send_corner_buffer.get(),1,MPI_INT,up_left,rank,
+//               receive_corner_buffer.get()+3,1,MPI_INT,down_right,rank,
+//               MPI_COMM_WORLD,MPI_STATUS_IGNORE);
+//
+// // Send corner buffers up/right and receive from below/left
+//   MPI_Sendrecv(send_corner_buffer.get()+1,1,MPI_INT,up_right,rank,
+//               receive_corner_buffer.get()+2,1,MPI_INT,down_left,rank,
+//               MPI_COMM_WORLD,MPI_STATUS_IGNORE);
+//
+// // Send corner buffers down/left and receive from above/right
+//   MPI_Sendrecv(send_corner_buffer.get()+2,1,MPI_INT,down_left,rank,
+//               receive_corner_buffer.get()+1,1,MPI_INT,up_right,rank,
+//               MPI_COMM_WORLD,MPI_STATUS_IGNORE);
+//
+// // Send corner buffers down/right and receive from up/left
+//   MPI_Sendrecv(send_corner_buffer.get()+3,1,MPI_INT,down_right,rank,
+//               receive_corner_buffer.get(),1,MPI_INT,up_left,rank,
+//               MPI_COMM_WORLD,MPI_STATUS_IGNORE);
 
 }
 
