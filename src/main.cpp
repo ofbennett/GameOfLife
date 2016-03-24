@@ -63,7 +63,7 @@ int main(int argc, char **argv){
   if(Pseudorandom){
     seed = 100; // Pseudorandom seed
   }else{
-    seed = static_cast<int>(time(NULL)); // Random seed
+    seed = static_cast<int>(time(NULL)) + rank; // Random seed
   }
 
   // mpi_size = 16;
