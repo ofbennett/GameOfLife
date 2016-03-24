@@ -183,65 +183,53 @@ void World::Communicate(){
 // if(rank+1>mpi_size-1){after=0;}
 // if(rank-1<0){before=mpi_size-1;}
 
-if(rank==1){
-MPI_Sendrecv(send_up_buffer.get(),sizex_local,MPI_INT,2,rank,
-            receive_down_buffer.get(),sizex_local,MPI_INT,2,rank,
-            MPI_COMM_WORLD,MPI_STATUS_IGNORE);
-}
-
-if(rank==2){
-  MPI_Sendrecv(send_up_buffer.get(),sizex_local,MPI_INT,1,rank,
-              receive_down_buffer.get(),sizex_local,MPI_INT,1,rank,
-              MPI_COMM_WORLD,MPI_STATUS_IGNORE);
-}
-
 // Send buffers up and receive from below
-// MPI_Sendrecv(send_up_buffer.get(),sizex_local,MPI_INT,up,rank,
-//             receive_down_buffer.get(),sizex_local,MPI_INT,down,rank,
-//             MPI_COMM_WORLD,MPI_STATUS_IGNORE);
-//
+MPI_Sendrecv(send_up_buffer.get(),sizex_local,MPI_INT,up,1,
+            receive_down_buffer.get(),sizex_local,MPI_INT,down,1,
+            MPI_COMM_WORLD,MPI_STATUS_IGNORE);
+
 // cout << "send: " << up << endl;
 // cout << "receive: " << down << endl;
-// // Send buffers down and receive from above
-//   MPI_Sendrecv(send_down_buffer.get(),sizex_local,MPI_INT,down,rank,
-//               receive_up_buffer.get(),sizex_local,MPI_INT,up,rank,
-//               MPI_COMM_WORLD,MPI_STATUS_IGNORE);
-//
+// Send buffers down and receive from above
+  MPI_Sendrecv(send_down_buffer.get(),sizex_local,MPI_INT,down,1,
+              receive_up_buffer.get(),sizex_local,MPI_INT,up,1,
+              MPI_COMM_WORLD,MPI_STATUS_IGNORE);
+
 // cout << "send: " << down << endl;
 // cout << "receive: " << up << endl;
-// // Send buffers right and receive from left
-//   MPI_Sendrecv(send_right_buffer.get(),sizey_local,MPI_INT,right,rank,
-//               receive_left_buffer.get(),sizey_local,MPI_INT,left,rank,
-//               MPI_COMM_WORLD,MPI_STATUS_IGNORE);
-//
+// Send buffers right and receive from left
+  MPI_Sendrecv(send_right_buffer.get(),sizey_local,MPI_INT,right,1,
+              receive_left_buffer.get(),sizey_local,MPI_INT,left,1,
+              MPI_COMM_WORLD,MPI_STATUS_IGNORE);
+
 // cout << "send: " << right << endl;
 // cout << "receive: " << left << endl;
-// // Send buffers left and receive from right
-//   MPI_Sendrecv(send_left_buffer.get(),sizey_local,MPI_INT,left,rank,
-//               receive_right_buffer.get(),sizey_local,MPI_INT,right,rank,
-//               MPI_COMM_WORLD,MPI_STATUS_IGNORE);
-//
+// Send buffers left and receive from right
+  MPI_Sendrecv(send_left_buffer.get(),sizey_local,MPI_INT,left,1,
+              receive_right_buffer.get(),sizey_local,MPI_INT,right,1,
+              MPI_COMM_WORLD,MPI_STATUS_IGNORE);
+
 // cout << "send: " << left << endl;
 // cout << "receive: " << right << endl;
-// // Send corner buffers up/left and receive from below/right
-//   MPI_Sendrecv(send_corner_buffer.get(),1,MPI_INT,up_left,rank,
-//               receive_corner_buffer.get()+3,1,MPI_INT,down_right,rank,
-//               MPI_COMM_WORLD,MPI_STATUS_IGNORE);
-//
-// // Send corner buffers up/right and receive from below/left
-//   MPI_Sendrecv(send_corner_buffer.get()+1,1,MPI_INT,up_right,rank,
-//               receive_corner_buffer.get()+2,1,MPI_INT,down_left,rank,
-//               MPI_COMM_WORLD,MPI_STATUS_IGNORE);
-//
-// // Send corner buffers down/left and receive from above/right
-//   MPI_Sendrecv(send_corner_buffer.get()+2,1,MPI_INT,down_left,rank,
-//               receive_corner_buffer.get()+1,1,MPI_INT,up_right,rank,
-//               MPI_COMM_WORLD,MPI_STATUS_IGNORE);
-//
-// // Send corner buffers down/right and receive from up/left
-//   MPI_Sendrecv(send_corner_buffer.get()+3,1,MPI_INT,down_right,rank,
-//               receive_corner_buffer.get(),1,MPI_INT,up_left,rank,
-//               MPI_COMM_WORLD,MPI_STATUS_IGNORE);
+// Send corner buffers up/left and receive from below/right
+  MPI_Sendrecv(send_corner_buffer.get(),1,MPI_INT,up_left,1,
+              receive_corner_buffer.get()+3,1,MPI_INT,down_right,1,
+              MPI_COMM_WORLD,MPI_STATUS_IGNORE);
+
+// Send corner buffers up/right and receive from below/left
+  MPI_Sendrecv(send_corner_buffer.get()+1,1,MPI_INT,up_right,1,
+              receive_corner_buffer.get()+2,1,MPI_INT,down_left,1,
+              MPI_COMM_WORLD,MPI_STATUS_IGNORE);
+
+// Send corner buffers down/left and receive from above/right
+  MPI_Sendrecv(send_corner_buffer.get()+2,1,MPI_INT,down_left,1,
+              receive_corner_buffer.get()+1,1,MPI_INT,up_right,1,
+              MPI_COMM_WORLD,MPI_STATUS_IGNORE);
+
+// Send corner buffers down/right and receive from up/left
+  MPI_Sendrecv(send_corner_buffer.get()+3,1,MPI_INT,down_right,1,
+              receive_corner_buffer.get(),1,MPI_INT,up_left,1,
+              MPI_COMM_WORLD,MPI_STATUS_IGNORE);
 
 }
 
