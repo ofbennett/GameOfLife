@@ -63,7 +63,7 @@ void World::PopulateFromArrayMPI(aliveness data[],int array_length){
 
   for (int x=1;x<sizex_halo-1;x++) {
     for (int y=1;y<sizey_halo-1;y++) {
-        grid[x][y] = data[y + (sizey*x)];
+        grid[x][y] = data[y-1 + (sizey_local*(x-1))];
     }
   }
 }
