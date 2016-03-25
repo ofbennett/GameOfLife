@@ -26,7 +26,7 @@ def create_video(data,video_fname):
     video.save(video_fname)
 
 print "Making video from output..."
-input_dir =  "results/latest_results/legion.rc.ucl.ac.uk/" # sys.argv[1]
+input_dir = sys.argv[1]
 video_path = join(input_dir,video_fname)
 files = glob(input_dir+'*output.txt')
 
@@ -34,13 +34,16 @@ n = 0
 for f in files:
     n+=1
     data, mpi_row_coord, mpi_col_coord, mpi_rows, mpi_cols = get_data(f)
+    temp = []
     if(n==1):
-        temp = [0 for i in range(mpi_cols)]
-        data_collection = [temp for i in range(mpi_rows)]
+        for j in range(mpi_cols):
+            temp.append([0 for i in range(mpi_cols)])
+        data_collection = [temp[i] for i in range(mpi_rows)]
     data_collection[mpi_row_coord][mpi_col_coord] = data
-data_array = np.array(data_collection)
-data_array = np.concatenate(data_array,axis=3)
-data_array = np.concatenate(data_array,axis=1)
 
-create_video(data_array,video_path)
+for row in range(mpi_rows):
+    data_collection[row] = np.concatenate(data_collection[row][:],axis=1)
+data_collection = np.concatenate(data_collection[:],axis=2)
+
+create_video(data_collection,video_path)
 print "Video of GameOfLife output created and saved to:\n{}".format(video_path)
