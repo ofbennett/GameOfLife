@@ -3,22 +3,17 @@
 #include <ctime>
 #include <cassert>
 #include <string>
-#ifdef _OPENMP
-#include <omp.h>
-#endif
 #include "World.h"
 
 using namespace std;
 
-float time_calc(double begin, double end){
-  float total_time = (end - begin);
+float time_calc(clock_t begin, clock_t end){
+  float total_time = (end - begin)/static_cast<float>(CLOCKS_PER_SEC);
   return total_time;
 }
 
 int main(int argc, char **argv){
-  #ifdef _OPENMP
-  double start = omp_get_wtime();
-  #endif
+  clock_t start = clock();
 
   int sizex;
   int sizey;
@@ -68,13 +63,13 @@ int main(int argc, char **argv){
     world.Record(outfile);
     world.Update();
   }
-  #ifdef _OPENMP
-  double finish = omp_get_wtime();
+
+  clock_t finish = clock();
   if(verbose){
     cout << "The total time taken was " << time_calc(start,finish) << " seconds\n";
   }else{
     cout << time_calc(start,finish) << endl;
   }
-  #endif
+
   return EXIT_SUCCESS;
 }
