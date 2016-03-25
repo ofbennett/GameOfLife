@@ -32,7 +32,7 @@ def cold(branch='master'):
                 with cd('build'):
                     run('cmake ..')
                     run('make')
-                    #run('test/test_GoL')
+                    run('test/test_GoL')
 
 @task
 def warm(branch='master'):
