@@ -167,42 +167,42 @@ void World::Communicate(){
   int down_left = RankFromCoord(mpi_row_coord+1,mpi_col_coord-1);
   int down_right = RankFromCoord(mpi_row_coord+1,mpi_col_coord+1);
 
-// Send buffers up and receive from below
-MPI_Sendrecv(send_up_buffer.get(),sizex_local,MPI_INT,up,1,
+  // Send buffers up and receive from below
+  MPI_Sendrecv(send_up_buffer.get(),sizex_local,MPI_INT,up,1,
             receive_down_buffer.get(),sizex_local,MPI_INT,down,1,
             MPI_COMM_WORLD,MPI_STATUS_IGNORE);
 
-// Send buffers down and receive from above
+  // Send buffers down and receive from above
   MPI_Sendrecv(send_down_buffer.get(),sizex_local,MPI_INT,down,1,
               receive_up_buffer.get(),sizex_local,MPI_INT,up,1,
               MPI_COMM_WORLD,MPI_STATUS_IGNORE);
 
-// Send buffers right and receive from left
+  // Send buffers right and receive from left
   MPI_Sendrecv(send_right_buffer.get(),sizey_local,MPI_INT,right,1,
               receive_left_buffer.get(),sizey_local,MPI_INT,left,1,
               MPI_COMM_WORLD,MPI_STATUS_IGNORE);
 
-// Send buffers left and receive from right
+  // Send buffers left and receive from right
   MPI_Sendrecv(send_left_buffer.get(),sizey_local,MPI_INT,left,1,
               receive_right_buffer.get(),sizey_local,MPI_INT,right,1,
               MPI_COMM_WORLD,MPI_STATUS_IGNORE);
 
-// Send corner buffers up/left and receive from below/right
+  // Send corner buffers up/left and receive from below/right
   MPI_Sendrecv(send_corner_buffer.get(),1,MPI_INT,up_left,1,
               receive_corner_buffer.get()+3,1,MPI_INT,down_right,1,
               MPI_COMM_WORLD,MPI_STATUS_IGNORE);
 
-// Send corner buffers up/right and receive from below/left
+  // Send corner buffers up/right and receive from below/left
   MPI_Sendrecv(send_corner_buffer.get()+1,1,MPI_INT,up_right,1,
               receive_corner_buffer.get()+2,1,MPI_INT,down_left,1,
               MPI_COMM_WORLD,MPI_STATUS_IGNORE);
 
-// Send corner buffers down/left and receive from above/right
+  // Send corner buffers down/left and receive from above/right
   MPI_Sendrecv(send_corner_buffer.get()+2,1,MPI_INT,down_left,1,
               receive_corner_buffer.get()+1,1,MPI_INT,up_right,1,
               MPI_COMM_WORLD,MPI_STATUS_IGNORE);
 
-// Send corner buffers down/right and receive from up/left
+  // Send corner buffers down/right and receive from up/left
   MPI_Sendrecv(send_corner_buffer.get()+3,1,MPI_INT,down_right,1,
               receive_corner_buffer.get(),1,MPI_INT,up_left,1,
               MPI_COMM_WORLD,MPI_STATUS_IGNORE);
