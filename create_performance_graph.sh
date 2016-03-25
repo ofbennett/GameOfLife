@@ -1,12 +1,12 @@
 #!/bin/bash -l
 pip install fabric
-fab legion.cold:branch=OpenMP
+fab legion.cold:branch=MPI
 
 for i in 1 2 3 4 6 8 10 12
 do
   fab legion.sub:processes=${i},config=config_graph.yml
   fab legion.wait
-  fab legion.fetch_time:dir_name=${i}_processes
+  fab legion.fetch_time_MPI:dir_name=${i}_processes
   fab legion.cleanup_results
 done
 

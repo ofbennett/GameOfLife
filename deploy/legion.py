@@ -85,6 +85,12 @@ def fetch_time(dir_name = 'latest_results'):
         get('GameOfLife.o*')
 
 @task
+def fetch_time_MPI(dir_name = 'latest_results'):
+    with lcd(os.path.join(os.path.dirname(os.path.dirname(__file__)),'results',dir_name)):
+      with cd(env.run_at):
+        get('time.txt')
+
+@task
 def cleanup_results():
     run('rm -rf /home/'+env.user+'/Scratch/GoL')
 
