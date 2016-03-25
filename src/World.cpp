@@ -26,8 +26,8 @@ receive_down_buffer(new aliveness[sizex_local]),
 receive_corner_buffer(new aliveness[4]),
 grid(sizex_local+2,vector<aliveness>(sizey_local+2)),
 next_grid(sizex_local+2,vector<aliveness>(sizey_local+2)),
-alive(true),
-dead(false)
+alive(1),
+dead(0)
 {
 
 }
@@ -55,6 +55,12 @@ void World::PopulateFromArray(aliveness data[],int array_length){
 void World::PopulateFromArrayMPI(aliveness data[],int array_length){
   assert(sizex_local*sizey_local == array_length);
 
+  for (int x=0;x<sizex_halo;x++) {
+    for (int y=0;y<sizey_halo;y++) {
+        grid[x][y] = 0;
+    }
+  }
+
   for (int x=1;x<sizex_halo-1;x++) {
     for (int y=1;y<sizey_halo-1;y++) {
         grid[x][y] = data[y + (sizey*x)];
@@ -77,8 +83,8 @@ void World::Record(ostream &out) const{
 }
 
 void World::UpdateGrid(){
-    for (int x=1;x<sizex_local+1;x++) {
-      for (int y=1;y<sizey_local+1;y++) {
+    for (int x=1;x<sizex_local;x++) {
+      for (int y=1;y<sizey_local;y++) {
         next_grid[x][y] = NewState(x,y);
       }
     }
@@ -98,6 +104,14 @@ int World::Sizey() const{
   return sizey;
 }
 
+int World::Sizex_Halo() const{
+  return sizex_halo;
+}
+
+int World::Sizey_Halo() const{
+  return sizey_halo;
+}
+
 grid_type World::Grid() const{
   return grid;
 }
@@ -111,16 +125,6 @@ aliveness World::NewState(int x, int y) const{
   int alive_neighbors = 0;
   int xn; // Neighbor x index
   int yn; // Neighbor y index
-  bool TopXEdge = false;
-  bool TopYEdge = false;
-  bool BottomXEdge = false;
-  bool BottomYEdge = false;
-
-  // Check if we are at a grid edge
-  if(x==sizex-1){TopXEdge=true;}
-  if(y==sizey-1){TopYEdge=true;}
-  if(x==0){BottomXEdge=true;}
-  if(y==0){BottomYEdge=true;}
 
   // Count alive neighbors
   for (int i=0;i<3;i++) {
@@ -130,16 +134,9 @@ aliveness World::NewState(int x, int y) const{
       xn = x-1+i;
       yn = y-1+j;
 
-      // Wrap index around to other side of grid if at an edge
-      if((x-1+i)==sizex){xn = 0;}
-      if((y-1+j)==sizey){yn = 0;}
-      if((x-1+i)==-1){xn = sizex-1;}
-      if((y-1+j)==-1){yn = sizey-1;}
-
       if(grid[xn][yn]==alive){alive_neighbors += 1;}
     }
   }
-
   if(grid[x][y]==alive){
     if((alive_neighbors==2)||(alive_neighbors==3)){newstate = alive;}
     else{newstate = dead;}

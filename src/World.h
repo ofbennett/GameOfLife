@@ -20,12 +20,15 @@ public:
   World(int sizex, int sizey, int rank, int mpi_size,int* mpi_dimentions,int* node_coord);
   void Populate(int seed);
   void PopulateFromArray(aliveness data[], int array_length);
+  void PopulateFromArrayMPI(aliveness data[], int array_length);
   void WriteHeader(ostream &out, int EndOfDays) const;
   void Record(ostream &out) const;
   void UpdateGrid();
   int Day() const;
   int Sizex() const;
   int Sizey() const;
+  int Sizex_Halo() const;
+  int Sizey_Halo() const;
   int Size() const;
   grid_type Grid() const;
   aliveness NewState(int x, int y) const;
