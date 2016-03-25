@@ -52,6 +52,16 @@ void World::PopulateFromArray(aliveness data[],int array_length){
   }
 }
 
+void World::PopulateFromArrayMPI(aliveness data[],int array_length){
+  assert(sizex_local*sizey_local == array_length);
+
+  for (int x=1;x<sizex_halo-1;x++) {
+    for (int y=1;y<sizey_halo-1;y++) {
+        grid[x][y] = data[y + (sizey*x)];
+    }
+  }
+}
+
 void World::WriteHeader(ostream &out, int EndOfDays) const{
   out << sizex_local << " , " << sizey_local << " , " << EndOfDays << " , " << mpi_row_coord << " , " << mpi_col_coord << " , " << mpi_rows << " , " << mpi_cols << endl;
 }
