@@ -167,57 +167,26 @@ void World::Communicate(){
   int down_left = RankFromCoord(mpi_row_coord+1,mpi_col_coord-1);
   int down_right = RankFromCoord(mpi_row_coord+1,mpi_col_coord+1);
 
-  // int up = 0;
-  // int down = 0;
-  // int left = 0;
-  // int right = 0;
-  // int up_left = 0;
-  // int up_right = 0;
-  // int down_left = 0;
-  // int down_right = 0;
-
-  // cout << "up: " << up << endl;
-  // cout << "down: " << down << endl;
-  // cout << "left: " << left << endl;
-  // cout << "right: " << right << endl;
-  // cout << "up/left: " << up_left << endl;
-  // cout << "up/right: " << up_right << endl;
-  // cout << "down/left: " << down_left << endl;
-  // cout << "down/right: " << down_right << endl;
-
-// int before = rank-1;
-// int after = rank+1;
-// if(rank+1>mpi_size-1){after=0;}
-// if(rank-1<0){before=mpi_size-1;}
-
 // Send buffers up and receive from below
 MPI_Sendrecv(send_up_buffer.get(),sizex_local,MPI_INT,up,1,
             receive_down_buffer.get(),sizex_local,MPI_INT,down,1,
             MPI_COMM_WORLD,MPI_STATUS_IGNORE);
 
-// cout << "send: " << up << endl;
-// cout << "receive: " << down << endl;
 // Send buffers down and receive from above
   MPI_Sendrecv(send_down_buffer.get(),sizex_local,MPI_INT,down,1,
               receive_up_buffer.get(),sizex_local,MPI_INT,up,1,
               MPI_COMM_WORLD,MPI_STATUS_IGNORE);
 
-// cout << "send: " << down << endl;
-// cout << "receive: " << up << endl;
 // Send buffers right and receive from left
   MPI_Sendrecv(send_right_buffer.get(),sizey_local,MPI_INT,right,1,
               receive_left_buffer.get(),sizey_local,MPI_INT,left,1,
               MPI_COMM_WORLD,MPI_STATUS_IGNORE);
 
-// cout << "send: " << right << endl;
-// cout << "receive: " << left << endl;
 // Send buffers left and receive from right
   MPI_Sendrecv(send_left_buffer.get(),sizey_local,MPI_INT,left,1,
               receive_right_buffer.get(),sizey_local,MPI_INT,right,1,
               MPI_COMM_WORLD,MPI_STATUS_IGNORE);
 
-// cout << "send: " << left << endl;
-// cout << "receive: " << right << endl;
 // Send corner buffers up/left and receive from below/right
   MPI_Sendrecv(send_corner_buffer.get(),1,MPI_INT,up_left,1,
               receive_corner_buffer.get()+3,1,MPI_INT,down_right,1,

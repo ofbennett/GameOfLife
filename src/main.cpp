@@ -66,17 +66,10 @@ int main(int argc, char **argv){
     seed = static_cast<int>(time(NULL)) + rank; // Random seed
   }
 
-  // mpi_size = 16;
-  // rank = 2;
   int mpi_dimentions[] = {0,0};
   int node_coord[] = {0,0};
   Find_MPI_Dimentions(sizex,sizey,mpi_size,mpi_dimentions);
   Find_Node_Coord(rank,mpi_dimentions,node_coord);
-
-  // cout << mpi_dimentions[0] << endl;
-  // cout << mpi_dimentions[1] << endl;
-  // cout << node_coord[0] << endl;
-  // cout << node_coord[1] << endl;
 
   World world(sizex,sizey,rank,mpi_size,mpi_dimentions,node_coord);
   world.Populate(seed);
