@@ -19,7 +19,7 @@ modules = nested(
 )
 
 @task
-def cold(branch='master'):
+def cold(branch='serial'):
     run('rm -rf '+env.deploy_to)
     run('mkdir -p '+env.deploy_to)
     run('mkdir -p '+env.run_at)
@@ -35,7 +35,7 @@ def cold(branch='master'):
                     run('test/test_GoL')
 
 @task
-def warm(branch='master'):
+def warm(branch='serial'):
   with cd(env.deploy_to+'/GameOfLife/build'):
         with modules:
             run('git checkout '+branch)
