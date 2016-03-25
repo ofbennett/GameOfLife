@@ -83,8 +83,8 @@ void World::Record(ostream &out) const{
 }
 
 void World::UpdateGrid(){
-    for (int x=1;x<sizex_local;x++) {
-      for (int y=1;y<sizey_local;y++) {
+    for (int x=1;x<sizex_local+1;x++) {
+      for (int y=1;y<sizey_local+1;y++) {
         next_grid[x][y] = NewState(x,y);
       }
     }
