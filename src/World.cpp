@@ -53,7 +53,7 @@ void World::PopulateFromArray(aliveness data[],int array_length){
 }
 
 void World::WriteHeader(ostream &out, int EndOfDays) const{
-  out << sizex_local << " , " << sizey_local << " , " << EndOfDays << " , " << mpi_row_coord << " , " << mpi_col_coord << endl;
+  out << sizex_local << " , " << sizey_local << " , " << EndOfDays << " , " << mpi_row_coord << " , " << mpi_col_coord << " , " << mpi_rows << " , " << mpi_cols << endl;
 }
 
 void World::Record(ostream &out) const{
