@@ -11,7 +11,7 @@
 using namespace std;
 
 typedef bool aliveness;
-typedef vector< vector< aliveness > > grid_type;
+typedef vector< aliveness > grid_type;
 
 class World {
 public:
@@ -27,6 +27,9 @@ public:
   int Size() const;
   grid_type Grid() const;
   aliveness NewState(int x, int y) const;
+  void SetGrid(int x, int y, aliveness val);
+  void SetNextGrid(int x, int y, aliveness val);
+  aliveness GetGridVal(int x, int y) const;
 
 private:
   int day;

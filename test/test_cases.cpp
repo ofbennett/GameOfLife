@@ -26,13 +26,13 @@ TEST_CASE("Check live cells die with underpopulation"){
 
   for (int x=0;x<world1.Sizex();x++) {
     for (int y=0;y<world1.Sizey();y++) {
-      REQUIRE(world1.Grid()[x][y] == 0);
+      REQUIRE(world1.GetGridVal(x,y) == 0);
     }
   }
 
   for (int x=0;x<world2.Sizex();x++) {
     for (int y=0;y<world2.Sizey();y++) {
-      REQUIRE(world2.Grid()[x][y] == 0);
+      REQUIRE(world2.GetGridVal(x,y) == 0);
     }
   }
 
@@ -92,11 +92,11 @@ TEST_CASE("Check live cells die with overpopulation"){
   world5.PopulateFromArray(data5, array5_length);
   world5.Update();
 
-  REQUIRE(world1.Grid()[1][1] == 0);
-  REQUIRE(world2.Grid()[1][1] == 0);
-  REQUIRE(world3.Grid()[1][1] == 0);
-  REQUIRE(world4.Grid()[1][1] == 0);
-  REQUIRE(world5.Grid()[1][1] == 0);
+  REQUIRE(world1.GetGridVal(1,1) == 0);
+  REQUIRE(world2.GetGridVal(1,1) == 0);
+  REQUIRE(world3.GetGridVal(1,1) == 0);
+  REQUIRE(world4.GetGridVal(1,1) == 0);
+  REQUIRE(world5.GetGridVal(1,1) == 0);
 
 }
 TEST_CASE("Check live cells stay alive with correct neighbor number"){
@@ -122,8 +122,8 @@ TEST_CASE("Check live cells stay alive with correct neighbor number"){
   world2.PopulateFromArray(data2, array2_length);
   world2.Update();
 
-  REQUIRE(world1.Grid()[1][1] == 1);
-  REQUIRE(world2.Grid()[1][1] == 1);
+  REQUIRE(world1.GetGridVal(1,1) == 1);
+  REQUIRE(world2.GetGridVal(1,1) == 1);
 
 }
 TEST_CASE("Check dead cells stay dead unless 3 live neighbors"){
@@ -170,10 +170,10 @@ TEST_CASE("Check dead cells stay dead unless 3 live neighbors"){
   world4.PopulateFromArray(data4, array4_length);
   world4.Update();
 
-  REQUIRE(world1.Grid()[1][1] == 0);
-  REQUIRE(world2.Grid()[1][1] == 0);
-  REQUIRE(world3.Grid()[1][1] == 0);
-  REQUIRE(world4.Grid()[1][1] == 1);
+  REQUIRE(world1.GetGridVal(1,1) == 0);
+  REQUIRE(world2.GetGridVal(1,1) == 0);
+  REQUIRE(world3.GetGridVal(1,1) == 0);
+  REQUIRE(world4.GetGridVal(1,1) == 1);
 
 }
 TEST_CASE("Check World edge behaviour"){
@@ -220,10 +220,10 @@ TEST_CASE("Check World edge behaviour"){
   world4.PopulateFromArray(data4, array4_length);
   world4.Update();
 
-  REQUIRE(world1.Grid()[0][1] == 0);
-  REQUIRE(world2.Grid()[0][1] == 0);
-  REQUIRE(world3.Grid()[0][1] == 1);
-  REQUIRE(world4.Grid()[0][0] == 0);
+  REQUIRE(world1.GetGridVal(0,1) == 0);
+  REQUIRE(world2.GetGridVal(0,1) == 0);
+  REQUIRE(world3.GetGridVal(0,1) == 1);
+  REQUIRE(world4.GetGridVal(0,0) == 0);
 
 }
 TEST_CASE("Check World member functions"){
@@ -239,7 +239,7 @@ TEST_CASE("Check World member functions"){
 
   for (int x=0;x<world1.Sizex();x++) {
     for (int y=0;y<world1.Sizey();y++) {
-      REQUIRE(world1.Grid()[x][y] == 0);
+      REQUIRE(world1.GetGridVal(x,y) == 0);
     }
   }
 

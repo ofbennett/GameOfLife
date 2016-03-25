@@ -4,8 +4,8 @@ World::World(int sizex, int sizey):
 day(0),
 sizex(sizex),
 sizey(sizey),
-grid(sizex,vector<aliveness>(sizey)),
-next_grid(sizex,vector<aliveness>(sizey)),
+grid(sizex*sizey),
+next_grid(sizex*sizey),
 alive(true),
 dead(false)
 {
@@ -16,7 +16,7 @@ void World::Populate(int seed){
   srand(seed);
   for (int x=0;x<sizex;x++) {
     for (int y=0;y<sizey;y++) {
-        grid[x][y] = rand()%2;
+        this->SetGrid(x,y,rand()%2);
     }
   }
 }
@@ -26,7 +26,7 @@ void World::PopulateFromArray(aliveness data[],int array_length){
 
   for (int x=0;x<sizex;x++) {
     for (int y=0;y<sizey;y++) {
-        grid[x][y] = data[y + (sizey*x)];
+        this->SetGrid(x,y,data[y + (sizey*x)]);
     }
   }
 }
@@ -38,7 +38,7 @@ void World::WriteHeader(ostream &out, int EndOfDays) const{
 void World::Record(ostream &out) const{
   for (int x=0;x<sizex;x++) {
     for (int y=0;y<sizey;y++) {
-       out << grid[x][y] << " , ";
+       out << this->GetGridVal(x,y) << " , ";
     }
     out << endl;
   }
@@ -52,7 +52,7 @@ void World::Update(){
     #pragma omp for
     for (int x=0;x<sizex;x++) {
       for (int y=0;y<sizey;y++) {
-        next_grid[x][y] = NewState(x,y);
+        this->SetNextGrid(x,y,NewState(x,y));
       }
     }
   }
@@ -85,16 +85,6 @@ aliveness World::NewState(int x, int y) const{
   int alive_neighbors = 0;
   int xn; // Neighbor x index
   int yn; // Neighbor y index
-  bool TopXEdge = false;
-  bool TopYEdge = false;
-  bool BottomXEdge = false;
-  bool BottomYEdge = false;
-
-  // Check if we are at a grid edge
-  if(x==sizex-1){TopXEdge=true;}
-  if(y==sizey-1){TopYEdge=true;}
-  if(x==0){BottomXEdge=true;}
-  if(y==0){BottomYEdge=true;}
 
   // Count alive neighbors
   for (int i=0;i<3;i++) {
@@ -110,18 +100,31 @@ aliveness World::NewState(int x, int y) const{
       if((x-1+i)==-1){xn = sizex-1;}
       if((y-1+j)==-1){yn = sizey-1;}
 
-      if(grid[xn][yn]==alive){alive_neighbors += 1;}
+      if(this->GetGridVal(xn,yn)==alive){alive_neighbors += 1;}
     }
   }
 
-  if(grid[x][y]==alive){
+  if(this->GetGridVal(x,y)==alive){
     if((alive_neighbors==2)||(alive_neighbors==3)){newstate = alive;}
     else{newstate = dead;}
-  }else if(grid[x][y]==dead){
+  }else if(this->GetGridVal(x,y)==dead){
     if(alive_neighbors==3){newstate = alive;}
     else{newstate = dead;}
   }else{
     throw logic_error("A lifeform on the grid has an aliveness which is neither alive or dead!");
   }
   return newstate;
+}
+
+void World::SetGrid(int x, int y, aliveness val){
+  grid[y + x*sizey] = val;
+}
+
+void World::SetNextGrid(int x, int y, aliveness val){
+  next_grid[y + x*sizey] = val;
+}
+
+aliveness World::GetGridVal(int x, int y) const{
+  aliveness val = grid[y + x*sizey];
+  return val;
 }
