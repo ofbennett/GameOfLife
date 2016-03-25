@@ -1,0 +1,54 @@
+
+Using environment: openmpi-sge
+Running on 9 slots:
+    9 MPI tasks
+    1 threads per task
+TMPDIR=/tmpdir/job/903271.undefined
+
+Contents of machinefile:
+node-x02c-018
+node-x02c-018
+node-x02c-018
+node-x02c-018
+node-x02c-018
+node-x02c-018
+node-x02c-018
+node-x02c-018
+node-x02c-018
+
+I am rank 5
+There are 9 computers being used in total
+I am rank 6
+There are 9 computers being used in total
+I am rank 7
+There are 9 computers being used in total
+I am rank 8
+There are 9 computers being used in total
+I am rank 0
+There are 9 computers being used in total
+I am rank 1
+There are 9 computers being used in total
+I am rank 2
+There are 9 computers being used in total
+I am rank 3
+There are 9 computers being used in total
+I am rank 4
+There are 9 computers being used in total
+Running the Game of Life!
+Running the Game of Life!
+Running the Game of Life!
+Running the Game of Life!
+Running the Game of Life!
+Running the Game of Life!
+Running the Game of Life!
+Running the Game of Life!
+Running the Game of Life!
+The time taken by rank 1 was 4.49085 seconds
+The time taken by rank 2 was 4.49084 seconds
+The time taken by rank 3 was 4.49084 seconds
+The time taken by rank 5 was 4.49085 seconds
+The time taken by rank 6 was 4.49085 seconds
+The time taken by rank 8 was 4.49085 seconds
+The time taken by rank 4 was 4.49085 seconds
+The time taken by rank 7 was 4.49085 seconds
+The time taken by rank 0 was 4.49085 seconds
