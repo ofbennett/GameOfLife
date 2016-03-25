@@ -5,7 +5,7 @@ proc_nums = [1,2,4,6,8,10,12]
 
 fname_list = []
 for i in proc_nums:
-    fname = './results/{}_processes/legion.rc.ucl.ac.uk/time.txt'
+    fname = './results/{}_processes/legion.rc.ucl.ac.uk/time.txt'.format(i)
     fname_list.append(fname)
 
 time_list = []
