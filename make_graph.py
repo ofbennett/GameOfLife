@@ -17,8 +17,8 @@ for files in fname_list:
 plt.plot(proc_nums,time_list,marker='o')
 ymin, ymax = plt.ylim()
 plt.ylim(0,ymax)
-plt.title('Run Time vs MPI Process Number')
-plt.xlabel('MPI Process number')
+plt.title('Run Time vs MPI Node Number')
+plt.xlabel('MPI Node number')
 plt.ylabel('Run time / sec')
 
 plt.show()
