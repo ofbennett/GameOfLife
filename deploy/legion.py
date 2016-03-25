@@ -15,11 +15,11 @@ env.hosts=['legion.rc.ucl.ac.uk']
 modules = nested(
     prefix('module load cmake'),
     prefix('module swap compilers compilers/gnu/4.9.2'),
-    prefix('module swap mpi mpi/openmpi/1.10.1/gnu-4.9.2')
+    prefix('module load cuda/7.5.18/gnu-4.9.2')
 )
 
 @task
-def cold(branch='OpenMP'):
+def cold(branch='CUDA'):
     run('rm -rf '+env.deploy_to)
     run('mkdir -p '+env.deploy_to)
     run('mkdir -p '+env.run_at)
@@ -35,7 +35,7 @@ def cold(branch='OpenMP'):
                     run('test/test_GoL')
 
 @task
-def warm(branch='OpenMP'):
+def warm(branch='CUDA'):
   with cd(env.deploy_to+'/GameOfLife/build'):
         with modules:
             run('git checkout '+branch)
@@ -46,8 +46,7 @@ def warm(branch='OpenMP'):
             run('test/test_GoL')
 
 @task
-def sub(processes=4,config="config.yml"):
-    env.processes=processes
+def sub(config="config.yml"):
     env.config=config
     template_file_path=os.path.join(os.path.dirname(__file__),'legion.sh.mko')
     script_local_path=os.path.join(os.path.dirname(__file__),'legion.sh')
