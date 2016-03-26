@@ -32,7 +32,7 @@ def cold(branch='CUDA'):
                 with cd('build'):
                     run('cmake ..')
                     run('make')
-                    run('test/test_GoL')
+
 
 @task
 def warm(branch='CUDA'):
@@ -43,7 +43,7 @@ def warm(branch='CUDA'):
             run('git pull')
             run('cmake ..')
             run('make')
-            run('test/test_GoL')
+
 
 @task
 def sub(config="config.yml"):
@@ -61,6 +61,19 @@ def sub(config="config.yml"):
     with cd(env.deploy_to):
         put(script_local_path,'legion.sh')
         run('qsub legion.sh')
+
+@task
+def sub_test():
+    template_file_path=os.path.join(os.path.dirname(__file__),'legion_test.sh.mko')
+    script_local_path=os.path.join(os.path.dirname(__file__),'legion_test.sh')
+    run('mkdir -p '+env.run_at)
+    with open(template_file_path) as template:
+        script=Template(template.read()).render(**env)
+        with open(script_local_path,'w') as script_file:
+            script_file.write(script)
+    with cd(env.deploy_to):
+        put(script_local_path,'legion_test.sh')
+        run('qsub legion_test.sh')
 
 @task
 def stat():
@@ -108,4 +121,3 @@ def patch():
         with cd('build'):
             run('cmake ..')
             run('make')
-            run('test/test_GoL')
