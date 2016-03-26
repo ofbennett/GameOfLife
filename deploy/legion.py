@@ -64,6 +64,20 @@ def sub(processes=4,config="config.yml"):
         run('qsub legion.sh')
 
 @task
+def sub_test(processes=4):
+    env.processes=processes
+    template_file_path=os.path.join(os.path.dirname(__file__),'legion_test.sh.mko')
+    script_local_path=os.path.join(os.path.dirname(__file__),'legion_test.sh')
+    run('mkdir -p '+env.run_at)
+    with open(template_file_path) as template:
+        script=Template(template.read()).render(**env)
+        with open(script_local_path,'w') as script_file:
+            script_file.write(script)
+    with cd(env.deploy_to):
+        put(script_local_path,'legion_test.sh')
+        run('qsub legion_test.sh')
+
+@task
 def stat():
     run('qstat')
 
