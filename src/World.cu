@@ -41,7 +41,7 @@ void World::WriteHeader(ostream &out, int EndOfDays) const{
 }
 
 void World::Record(ostream &out) const{
-//  thrust::copy(d_grid.begin(), d_grid.end(), grid.begin());
+
   for (int x=0;x<sizex;x++) {
     for (int y=0;y<sizey;y++) {
        out << this->GetGridVal(x,y) << " , ";

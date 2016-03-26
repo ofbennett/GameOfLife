@@ -11,7 +11,7 @@ inline int Getx(int index, int sizey){
 }
 
 inline int Gety(int index, int sizey){
-  int y = index - (index/sizey);
+  int y = index - (index/sizey)*sizey;
   return y;
 }
 
@@ -26,16 +26,16 @@ struct NewState {
   const aliveness dead;
   const int sizex;
   const int sizey;
-  NewState(int* old_grid, int sizex, int sizey);
-  aliveness operator()(aliveness cell, int index);
+  NewState(int* raw_array, int sizex, int sizey);
+  __host__ __device__ aliveness operator()(aliveness cell, int index);
 
 };
 
-inline NewState::NewState(int* old_grid, int sizex, int sizey): old_grid(old_grid),alive(true),dead(false),sizex(sizex),sizey(sizey){
-
+inline NewState::NewState(int* raw_array, int sizex, int sizey): old_grid(NULL),alive(1),dead(0),sizex(sizex),sizey(sizey){
+  old_grid = raw_array;
 }
 
-inline aliveness NewState::operator()(aliveness cell, int index){
+__host__ __device__ inline aliveness NewState::operator()(aliveness cell, int index){
     int newstate;
     int alive_neighbors = 0;
     int xn; // Neighbor x index
@@ -75,9 +75,11 @@ inline aliveness NewState::operator()(aliveness cell, int index){
 inline void UpdateKernel(thrust::device_vector< int >& d_grid,thrust::device_vector< int >& index,thrust::device_vector< int >& d_next_grid,thrust::host_vector< int >& grid,int sizex, int sizey){
 
   thrust::copy(grid.begin(), grid.end(), d_grid.begin());
+
   int* raw_array = thrust::raw_pointer_cast(d_grid.data());
 
   thrust::transform(d_grid.begin(),d_grid.end(),index.begin(),d_next_grid.begin(),NewState(raw_array,sizex,sizey));
+
   thrust::copy(d_next_grid.begin(), d_next_grid.end(), grid.begin());
 
 };

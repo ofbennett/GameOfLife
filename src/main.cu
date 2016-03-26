@@ -71,5 +71,5 @@ int main(int argc, char **argv){
     cout << time_calc(start,finish) << endl;
   }
 
-  return EXIT_SUCCESS;
+  return 0;
 }
