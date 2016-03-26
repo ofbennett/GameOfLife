@@ -57,7 +57,7 @@ void World::Update(){
   // }
   // grid = next_grid;
 
-  thrust::transform(grid.begin(),grid.end(),index.begin(),next_grid.begin(),Newstate(grid))
+  thrust::transform(grid.begin(),grid.end(),index.begin(),next_grid.begin(),NewState(grid,sizex,sizey));
 
   day += 1;
 }

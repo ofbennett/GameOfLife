@@ -102,6 +102,7 @@ def patch():
     local('git diff > patch.diff')
     put('patch.diff','patch.diff')
     with modules:
+        run('git reset --hard HEAD')
         run('git checkout .')
         run('git apply patch.diff')
         with cd('build'):

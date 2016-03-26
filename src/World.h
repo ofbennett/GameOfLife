@@ -29,7 +29,7 @@ public:
   int Sizey() const;
   int Size() const;
   grid_type Grid() const;
-  aliveness NewState(int x, int y) const;
+  //aliveness NewState(int x, int y) const;
   void SetGrid(int x, int y, aliveness val);
   void SetNextGrid(int x, int y, aliveness val);
   aliveness GetGridVal(int x, int y) const;
