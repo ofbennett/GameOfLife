@@ -7,6 +7,8 @@
 #include <cassert>
 #include <cstdlib>
 #include <stdexcept>
+#include <thrust/device_vector.h>
+#include <thrust/transform.h>
 
 using namespace std;
 
