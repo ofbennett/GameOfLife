@@ -24,7 +24,6 @@ void World::Populate(int seed){
         this->SetGrid(x,y,rand()%2);
     }
   }
-//thrust::copy(d_grid.begin(), d_grid.end(), grid.begin());
 }
 
 void World::PopulateFromArray(aliveness data[],int array_length){
@@ -35,7 +34,6 @@ void World::PopulateFromArray(aliveness data[],int array_length){
         this->SetGrid(x,y,data[y + (sizey*x)]);
     }
   }
-//thrust::copy(d_grid.begin(), d_grid.end(), grid.begin());
 }
 
 void World::WriteHeader(ostream &out, int EndOfDays) const{
@@ -63,9 +61,7 @@ void World::Update(){
   // grid = next_grid;
 
   // UpdateKernel<<<1,64>>>(d_grid,index,d_next_grid,sizex,sizey);
-  UpdateKernel(d_grid,index,d_next_grid,sizex,sizey);
-
-//  thrust::copy(d_next_grid.begin(), d_next_grid.end(), d_grid.begin());
+  UpdateKernel(d_grid,index,d_next_grid,grid,sizex,sizey);
 
   day += 1;
 }
@@ -89,42 +85,6 @@ host_grid_type World::Grid() const{
 int World::Size() const{
   return sizex*sizey;
 }
-
-// aliveness World::NewState(int x, int y) const{
-//   int newstate;
-//   int alive_neighbors = 0;
-//   int xn; // Neighbor x index
-//   int yn; // Neighbor y index
-//
-//   // Count alive neighbors
-//   for (int i=0;i<3;i++) {
-//     for (int j=0;j<3;j++) {
-//       if((i==1)&&(j==1)){continue;}
-//
-//       xn = x-1+i;
-//       yn = y-1+j;
-//
-//       // Wrap index around to other side of grid if at an edge
-//       if((x-1+i)==sizex){xn = 0;}
-//       if((y-1+j)==sizey){yn = 0;}
-//       if((x-1+i)==-1){xn = sizex-1;}
-//       if((y-1+j)==-1){yn = sizey-1;}
-//
-//       if(this->GetGridVal(xn,yn)==alive){alive_neighbors += 1;}
-//     }
-//   }
-//
-//   if(this->GetGridVal(x,y)==alive){
-//     if((alive_neighbors==2)||(alive_neighbors==3)){newstate = alive;}
-//     else{newstate = dead;}
-//   }else if(this->GetGridVal(x,y)==dead){
-//     if(alive_neighbors==3){newstate = alive;}
-//     else{newstate = dead;}
-//   }else{
-//     throw logic_error("A lifeform on the grid has an aliveness which is neither alive or dead!");
-//   }
-//   return newstate;
-// }
 
 void World::SetGrid(int x, int y, aliveness val){
   grid[y + x*sizey] = val;

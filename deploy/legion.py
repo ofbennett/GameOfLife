@@ -32,7 +32,7 @@ def cold(branch='CUDA'):
                 with cd('build'):
                     run('cmake ..')
                     run('make')
-                    run('test/test_GoL')
+                    # run('test/test_GoL')
 
 @task
 def warm(branch='CUDA'):
@@ -43,7 +43,7 @@ def warm(branch='CUDA'):
             run('git pull')
             run('cmake ..')
             run('make')
-            run('test/test_GoL')
+            # run('test/test_GoL')
 
 @task
 def sub(config="config.yml"):
@@ -108,4 +108,4 @@ def patch():
         with cd('build'):
             run('cmake ..')
             run('make')
-            run('test/test_GoL')
+            # run('test/test_GoL')
