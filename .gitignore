@@ -2,3 +2,4 @@
 *.diff
 results
 legion.sh
+legion_test.sh
