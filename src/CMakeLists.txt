@@ -1,3 +1,3 @@
-add_executable(game_of_life main.cpp)
-add_library(world_library World.cpp)
+add_executable(game_of_life main.cu)
+add_library(world_library World.cu)
 target_link_libraries(game_of_life world_library)
