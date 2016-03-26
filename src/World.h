@@ -9,11 +9,12 @@
 #include <stdexcept>
 #include <thrust/device_vector.h>
 #include <thrust/transform.h>
+#include "functors.h"
 
 using namespace std;
 
 typedef bool aliveness;
-typedef vector< aliveness > grid_type;
+typedef thrust::device_vector< aliveness > grid_type;
 
 class World {
 public:
@@ -41,6 +42,7 @@ private:
   grid_type next_grid;
   aliveness alive;
   aliveness dead;
+  thrust::device_vector< int > index;
 };
 
 #endif /* WORLD_H_ */

@@ -6,10 +6,13 @@ sizex(sizex),
 sizey(sizey),
 grid(sizex*sizey),
 next_grid(sizex*sizey),
+index(sizex*sizey),
 alive(true),
 dead(false)
 {
-
+  for (int i=0;i<sizex*sizey;i++) {
+    index[i] = i;
+  }
 }
 
 void World::Populate(int seed){
@@ -47,16 +50,15 @@ void World::Record(ostream &out) const{
 
 void World::Update(){
 
-  #pragma omp parallel
-  {
-    #pragma omp for
-    for (int x=0;x<sizex;x++) {
-      for (int y=0;y<sizey;y++) {
-        this->SetNextGrid(x,y,NewState(x,y));
-      }
-    }
-  }
-  grid = next_grid;
+  // for (int x=0;x<sizex;x++) {
+  //   for (int y=0;y<sizey;y++) {
+  //     this->SetNextGrid(x,y,NewState(x,y));
+  //   }
+  // }
+  // grid = next_grid;
+
+  thrust::transform(grid.begin(),grid.end(),index.begin(),next_grid.begin(),Newstate(grid))
+
   day += 1;
 }
 
@@ -80,41 +82,41 @@ int World::Size() const{
   return sizex*sizey;
 }
 
-aliveness World::NewState(int x, int y) const{
-  int newstate;
-  int alive_neighbors = 0;
-  int xn; // Neighbor x index
-  int yn; // Neighbor y index
-
-  // Count alive neighbors
-  for (int i=0;i<3;i++) {
-    for (int j=0;j<3;j++) {
-      if((i==1)&&(j==1)){continue;}
-
-      xn = x-1+i;
-      yn = y-1+j;
-
-      // Wrap index around to other side of grid if at an edge
-      if((x-1+i)==sizex){xn = 0;}
-      if((y-1+j)==sizey){yn = 0;}
-      if((x-1+i)==-1){xn = sizex-1;}
-      if((y-1+j)==-1){yn = sizey-1;}
-
-      if(this->GetGridVal(xn,yn)==alive){alive_neighbors += 1;}
-    }
-  }
-
-  if(this->GetGridVal(x,y)==alive){
-    if((alive_neighbors==2)||(alive_neighbors==3)){newstate = alive;}
-    else{newstate = dead;}
-  }else if(this->GetGridVal(x,y)==dead){
-    if(alive_neighbors==3){newstate = alive;}
-    else{newstate = dead;}
-  }else{
-    throw logic_error("A lifeform on the grid has an aliveness which is neither alive or dead!");
-  }
-  return newstate;
-}
+// aliveness World::NewState(int x, int y) const{
+//   int newstate;
+//   int alive_neighbors = 0;
+//   int xn; // Neighbor x index
+//   int yn; // Neighbor y index
+//
+//   // Count alive neighbors
+//   for (int i=0;i<3;i++) {
+//     for (int j=0;j<3;j++) {
+//       if((i==1)&&(j==1)){continue;}
+//
+//       xn = x-1+i;
+//       yn = y-1+j;
+//
+//       // Wrap index around to other side of grid if at an edge
+//       if((x-1+i)==sizex){xn = 0;}
+//       if((y-1+j)==sizey){yn = 0;}
+//       if((x-1+i)==-1){xn = sizex-1;}
+//       if((y-1+j)==-1){yn = sizey-1;}
+//
+//       if(this->GetGridVal(xn,yn)==alive){alive_neighbors += 1;}
+//     }
+//   }
+//
+//   if(this->GetGridVal(x,y)==alive){
+//     if((alive_neighbors==2)||(alive_neighbors==3)){newstate = alive;}
+//     else{newstate = dead;}
+//   }else if(this->GetGridVal(x,y)==dead){
+//     if(alive_neighbors==3){newstate = alive;}
+//     else{newstate = dead;}
+//   }else{
+//     throw logic_error("A lifeform on the grid has an aliveness which is neither alive or dead!");
+//   }
+//   return newstate;
+// }
 
 void World::SetGrid(int x, int y, aliveness val){
   grid[y + x*sizey] = val;
