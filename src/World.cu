@@ -6,9 +6,11 @@ sizex(sizex),
 sizey(sizey),
 grid(sizex*sizey),
 next_grid(sizex*sizey),
+d_grid(sizex*sizey),
+d_next_grid(sizex*sizey),
 index(sizex*sizey),
-alive(true),
-dead(false)
+alive(1),
+dead(0)
 {
   for (int i=0;i<sizex*sizey;i++) {
     index[i] = i;
@@ -22,6 +24,7 @@ void World::Populate(int seed){
         this->SetGrid(x,y,rand()%2);
     }
   }
+//thrust::copy(d_grid.begin(), d_grid.end(), grid.begin());
 }
 
 void World::PopulateFromArray(aliveness data[],int array_length){
@@ -32,6 +35,7 @@ void World::PopulateFromArray(aliveness data[],int array_length){
         this->SetGrid(x,y,data[y + (sizey*x)]);
     }
   }
+//thrust::copy(d_grid.begin(), d_grid.end(), grid.begin());
 }
 
 void World::WriteHeader(ostream &out, int EndOfDays) const{
@@ -39,6 +43,7 @@ void World::WriteHeader(ostream &out, int EndOfDays) const{
 }
 
 void World::Record(ostream &out) const{
+//  thrust::copy(d_grid.begin(), d_grid.end(), grid.begin());
   for (int x=0;x<sizex;x++) {
     for (int y=0;y<sizey;y++) {
        out << this->GetGridVal(x,y) << " , ";
@@ -57,7 +62,10 @@ void World::Update(){
   // }
   // grid = next_grid;
 
-  thrust::transform(grid.begin(),grid.end(),index.begin(),next_grid.begin(),NewState(grid,sizex,sizey));
+  // UpdateKernel<<<1,64>>>(d_grid,index,d_next_grid,sizex,sizey);
+  UpdateKernel(d_grid,index,d_next_grid,sizex,sizey);
+
+//  thrust::copy(d_next_grid.begin(), d_next_grid.end(), d_grid.begin());
 
   day += 1;
 }
@@ -74,7 +82,7 @@ int World::Sizey() const{
   return sizey;
 }
 
-grid_type World::Grid() const{
+host_grid_type World::Grid() const{
   return grid;
 }
 
