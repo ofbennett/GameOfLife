@@ -8,6 +8,8 @@ NOTE: Using the make_video.py script to generate a video file for visualization 
 
 The project has been setup so that it can be easily run on UCL's cluster called Legion. While all the branches of this repository can be easily run on Legion (or any other cluster in principle), they can only be run locally if your local system has the necessary dependancies.
 
+To run the code on Legion you need to have a UCL Legion account and be connected the the UCL network (ie to UCL eduroam). If you setup a UCL VPN on your computer you don't need to be connected to the UCL network.
+
 NOTE: Local building requires CMake, whilst running the scripts to deploy the code on Legion requires the python modules Fabric and Mako.
 
 The execution of the code is controlled by a config.yml file. Modify this file to specify parameter values for the simulation. The variable parameters are:
@@ -18,7 +20,7 @@ EndOfDays: The number of update steps to run the simulation for
 Pseudorandom: Initialize the cell field pseudorandomly (set to 1) or truly randomly (set to 0)
 verbose: Verbose output (set to 1) or quiet output (set to 0)
 
-Example results from each branch are provided in the folder called example_results. These results include the printed std output from the program along with the video created from the results of the computation. The raw output data has not been included as these files are very large.
+Example results from each branch are provided in the folder example_results. These results include the printed std output from the program along with the video created from the results of the computation. The raw output data has not been included as these files are very large.
 
 ******************************************************************************
 SERIAL BRANCH:
@@ -27,11 +29,12 @@ This can be built and run locally or on Legion.
 
 To build locally:
 git clone https://github.com/ofbennett/GameOfLife.git
+cd GameOfLife
 git checkout serial
-cd ..
-mkdir build
-cd build
+mkdir ../build
+cd ../build
 ccmake ../GameOfLife
+-> Hit c to configure
 -> Hit c to configure
 -> Hit g to generate a make file
 make
@@ -56,6 +59,7 @@ There are a series of Fabric functions that can be called to carry this out conv
 
 Commands:
 git clone https://github.com/ofbennett/GameOfLife.git
+cd GameOfLife
 git checkout serial
 -> Modify deploy/legion.py file, replacing my Legion user name with yours.
 -> Modify config.yml file to contain the simulation parameters of your choice
@@ -75,16 +79,16 @@ DONE
 ******************************************************************************
 OPENMP BRANCH:
 
-OpenMP is a C++ library which makes it very convenient to parallelize the execution of parts of your code across multiple cores on a single computer. This branch of the repo contains a version of the Game of Life code which does this.
+OpenMP is a C++ library which makes it very convenient to parallelize the execution of parts of your code across multiple cores on a single computer. This branch of the repository contains a version of the GameOfLife code which does this.
 
-This code can either be built and run locally or deployed onto Legion. If you were able to build and run the serial version of the code locally (as explained above) then you will be able to build and run this OpenMP version locally as well. However, you will need to have a C++ compiler which supports OpenMP if you want the code to run in parellel. If you don't the code will simply execute serially. Compilers on Legion support OpenMP.
+This code can either be built and run locally or deployed onto Legion. If you were able to build and run the serial version of the code locally (in the manner explained above) then you will be able to build and run this OpenMP version locally as well. However, you will need to have a C++ compiler which supports OpenMP if you want the code to run in parellel. If you don't the code will simply execute serially. Compilers on Legion support OpenMP.
 
 Building and running locally:
 The steps to carry this out are the same as for the serial branch above except you checkout the OpenMP branch rather than the serial one:
 git checkout OpenMP
 
 Building and running on Legion:
-The steps to carry this out are the same as for the serial branch above. If you would like the control the number of cores the execution will distribute across (default 4) you can do so by slightly modifying the 'sub' fabric command. For example if you would like to use 12 cores you would type this command instead:
+The steps to carry this out are the same as for the serial branch above. However, if you would like to control the number of cores the execution will distribute across (default 4) you can do so by slightly modifying the 'sub' fabric command. For example if you would like to use 12 cores you would type this command instead:
 fab legion.sub:processes=12
 
 As with the serial branch, running the legion_pipeline.sh bash script will carry out the whole Legion deployment pipeline automatically.
@@ -94,10 +98,10 @@ There is also a bash script entitled 'create_performance_graph.sh'. Running this
 ******************************************************************************
 MPI BRANCH:
 
-The Message Passing Interface (MPI) allows the parallel execution of code on multiple separate computers, or nodes on a cluster (such as Legion). I used the C++ library OpenMPI to parallelize execution of the GameOfLife code in this manner.
+The Message Passing Interface (MPI) allows the parallel execution of code on multiple separate computers, or nodes on a cluster. I used the C++ library OpenMPI to parallelize execution of the GameOfLife code in this manner.
 
 Building and running locally:
-This version of the code needs to be built and run on a system which has OpenMPI (and its dependancies) installed. These can be locally installed easily using something like Homebrew on a Mac. The code is then built and run locally in the same way as the serial branch (except you "git checkout MPI"). However, given the nature of the way this code parallelized, there isn't much point running it on an isolated local machine (it will simply run serially). This MPI version of the code should be deployed onto a cluster such as Legion to take advantage of the MPI performance improvement.
+This version of the code needs to be built and run on a system which has OpenMPI (and its dependancies) installed. These can be locally installed easily using something like Homebrew on a Mac. The code is then built and run locally in the same way as the serial branch (except you "git checkout MPI"). However, given the nature of the way this code is parallelized, there isn't much point running it on an isolated local machine (it will simply run serially in a more complicated way). This MPI version of the code should be deployed onto a cluster such as Legion to take advantage of the MPI performance improvement.
 
 Building and running on Legion:
 The steps to carry this out are the same as for the serial and OpenMP branches above. If you want 12 nodes, for example, (default 4) then use the command:
