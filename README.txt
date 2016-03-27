@@ -1,13 +1,14 @@
 GameOfLife
 
 By Oscar Bennett, UCL
-Student Number - 14087294
 
-This project is a C++ implementation of Conway's Game of Life. Different git branches in the repository parallelize the code in different ways (serial, OpenMP, MPI, CUDA). The resulting data files can by converted into a video using the Python script make_video.py. Additionally scripts have been included which automate the process of measuring performance changes with different parellelisation parameters.
+This project is a C++ implementation of Conway's Game of Life. Different git branches in the repository parallelize the code in different ways (serial, OpenMP, MPI, CUDA). The resulting data files can by converted into a video using the Python script make_video.py. Additionally scripts have been included which automate the process of measuring performance changes with different parellelization parameters.
 
 NOTE: Using the make_video.py script to generate a video file for visualization requires an installation of ffmpeg on your system.
 
-The project has been setup so that it can be easily run on UCL's cluster called Legion. While all the branches of this repository can be easily run on Legion (or any other cluster in principle), they can only be run locally if your local system has the necessary dependancies. Local building requires CMake, whilst running the scripts to deploy the code on Legion requires the python modules Fabric and Mako.
+The project has been setup so that it can be easily run on UCL's cluster called Legion. While all the branches of this repository can be easily run on Legion (or any other cluster in principle), they can only be run locally if your local system has the necessary dependancies.
+
+NOTE: Local building requires CMake, whilst running the scripts to deploy the code on Legion requires the python modules Fabric and Mako.
 
 The execution of the code is controlled by a config.yml file. Modify this file to specify parameter values for the simulation. The variable parameters are:
 
@@ -21,6 +22,7 @@ Example results from each branch are provided in the folder called example_resul
 
 ******************************************************************************
 SERIAL BRANCH:
+
 This can be built and run locally or on Legion.
 
 To build locally:
@@ -37,8 +39,12 @@ make
 To run the unit tests:
 test/test_GoL
 
-Then to execute the code:
+Then to execute the code with default parameters:
 src/game_of_life
+
+Alternatively to execute the code with your own parameters:
+-> Modify the config.yml file to contain the simulation parameters of your choice
+src/game_of_life ../GameOfLife/config.yml
 
 Then to create a video from the output:
 python ../GameOfLife/make_video.py output.txt
@@ -52,7 +58,9 @@ Commands:
 git clone https://github.com/ofbennett/GameOfLife.git
 git checkout serial
 -> Modify deploy/legion.py file, replacing my Legion user name with yours.
-fab legion.cold (Tests are automatically run after the build)
+-> Modify config.yml file to contain the simulation parameters of your choice
+fab legion.cold
+-> Tests are automatically run after the build
 fab legion.sub
 fab legion.wait
 fab legion.fetch_all
@@ -66,4 +74,49 @@ DONE
 
 ******************************************************************************
 OPENMP BRANCH:
-OpenMP is a
+
+OpenMP is a C++ library which makes it very convenient to parallelize the execution of parts of your code across multiple cores on a single computer. This branch of the repo contains a version of the Game of Life code which does this.
+
+This code can either be built and run locally or deployed onto Legion. If you were able to build and run the serial version of the code locally (as explained above) then you will be able to build and run this OpenMP version locally as well. However, you will need to have a C++ compiler which supports OpenMP if you want the code to run in parellel. If you don't the code will simply execute serially. Compilers on Legion support OpenMP.
+
+Building and running locally:
+The steps to carry this out are the same as for the serial branch above except you checkout the OpenMP branch rather than the serial one:
+git checkout OpenMP
+
+Building and running on Legion:
+The steps to carry this out are the same as for the serial branch above. If you would like the control the number of cores the execution will distribute across (default 4) you can do so by slightly modifying the 'sub' fabric command. For example if you would like to use 12 cores you would type this command instead:
+fab legion.sub:processes=12
+
+As with the serial branch, running the legion_pipeline.sh bash script will carry out the whole Legion deployment pipeline automatically.
+
+There is also a bash script entitled 'create_performance_graph.sh'. Running this will automatically run the code on Legion multiple times with different core numbers, time each execution, and then construct a graph of the run time vs core number. This is a nice way to see Amdahl's law in action! Warning: this script can take a while to execute depending on how busy Legion is (0.5 - 1 hour).
+
+******************************************************************************
+MPI BRANCH:
+
+The Message Passing Interface (MPI) allows the parallel execution of code on multiple separate computers, or nodes on a cluster (such as Legion). I used the C++ library OpenMPI to parallelize execution of the GameOfLife code in this manner.
+
+Building and running locally:
+This version of the code needs to be built and run on a system which has OpenMPI (and its dependancies) installed. These can be locally installed easily using something like Homebrew on a Mac. The code is then built and run locally in the same way as the serial branch (except you "git checkout MPI"). However, given the nature of the way this code parallelized, there isn't much point running it on an isolated local machine (it will simply run serially). This MPI version of the code should be deployed onto a cluster such as Legion to take advantage of the MPI performance improvement.
+
+Building and running on Legion:
+The steps to carry this out are the same as for the serial and OpenMP branches above. If you want 12 nodes, for example, (default 4) then use the command:
+fab legion.sub:processes=12
+
+As with the OpenMP branch there are bash scripts available to automate things. The 'legion_pipeline.sh' script will carry out the Legion deployment pipeline. The 'create_performance_graph.sh' will measure the run time using multiple different node numbers and construct a graph (Amdahl's law!). Warning: this graph script can take a while to execute depending on how busy Legion is (0.5 - 1 hour).
+
+Because the code execution involves complicated communication between nodes, in order to really mean anything the code tests also need to be run on Legion! To run the tests simply run the supplied bash script:
+bash test_script.sh
+
+The test results will be fetched back as a file that looks like 'GameOfLife.o*' with some trailing numbers. This is a text file which contains the printed results from the tests.
+
+******************************************************************************
+CUDA BRANCH:
+
+CUDA is an API created by NVIDIA which allows programs to be executed in parallel across a CUDA-enabled GPU. I used a C++ library called CUDA Thrust to parallelize the GameOfLife code on a GPU in this manner.
+
+Building and running locally:
+This version of the code needs to be built and run on a system which has both an NVIDIA GPU and a working installation of CUDA. If your local system meets these requirements then the code can be built and run locally in the same way as the serial branch (except you "git checkout CUDA").
+
+Building and running on Legion:
+The steps to carry this out are the same as for the serial branch. As with previous branches there are bash scripts to automate things. The 'legion_pipeline.sh' script carries out the Legion deployment pipeline. The 'test_script.sh' script will deploy and run the code tests on legion. The test results will be fetched back as a file that looks like 'GameOfLife.o*' with some trailing numbers. This is a text file which contains the printed results from the tests.
