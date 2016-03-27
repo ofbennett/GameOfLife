@@ -53,13 +53,6 @@ void World::Record(ostream &out) const{
 
 void World::Update(){
 
-  // for (int x=0;x<sizex;x++) {
-  //   for (int y=0;y<sizey;y++) {
-  //     this->SetNextGrid(x,y,NewState(x,y));
-  //   }
-  // }
-  // grid = next_grid;
-
   // UpdateKernel<<<1,64>>>(d_grid,index,d_next_grid,sizex,sizey);
   UpdateKernel(d_grid,index,d_next_grid,grid,sizex,sizey);
 
