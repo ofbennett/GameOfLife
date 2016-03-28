@@ -26,7 +26,7 @@ TEST_CASE("Check live cells die with underpopulation using MPI"){
 
   int mpi_dimentions[] = {0,0};
   int node_coord[] = {0,0};
-  Find_MPI_Dimentions(sizex,sizey,mpi_size,mpi_dimentions);
+  Find_MPI_Dimensions(sizex,sizey,mpi_size,mpi_dimentions);
   Find_Node_Coord(rank,mpi_dimentions,node_coord);
 
   World world1(sizex,sizey,rank,mpi_size,mpi_dimentions,node_coord);
@@ -102,7 +102,7 @@ TEST_CASE("Check live cells die with overpopulation using MPI"){
 
   int mpi_dimentions[] = {0,0};
   int node_coord[] = {0,0};
-  Find_MPI_Dimentions(sizex,sizey,mpi_size,mpi_dimentions);
+  Find_MPI_Dimensions(sizex,sizey,mpi_size,mpi_dimentions);
   Find_Node_Coord(rank,mpi_dimentions,node_coord);
 
   World world1(sizex,sizey,rank,mpi_size,mpi_dimentions,node_coord);
@@ -179,7 +179,7 @@ TEST_CASE("Check live cells stay alive with correct neighbor number using MPI"){
 
   int mpi_dimentions[] = {0,0};
   int node_coord[] = {0,0};
-  Find_MPI_Dimentions(sizex,sizey,mpi_size,mpi_dimentions);
+  Find_MPI_Dimensions(sizex,sizey,mpi_size,mpi_dimentions);
   Find_Node_Coord(rank,mpi_dimentions,node_coord);
 
   World world1(sizex,sizey,rank,mpi_size,mpi_dimentions,node_coord);
@@ -241,7 +241,7 @@ TEST_CASE("Check dead cells stay dead unless 3 live neighbors using MPI"){
 
   int mpi_dimentions[] = {0,0};
   int node_coord[] = {0,0};
-  Find_MPI_Dimentions(sizex,sizey,mpi_size,mpi_dimentions);
+  Find_MPI_Dimensions(sizex,sizey,mpi_size,mpi_dimentions);
   Find_Node_Coord(rank,mpi_dimentions,node_coord);
 
   World world1(sizex,sizey,rank,mpi_size,mpi_dimentions,node_coord);
@@ -321,7 +321,7 @@ TEST_CASE("Check World edge behaviour - Direct test of MPI communication between
 
   int mpi_dimentions[] = {0,0};
   int node_coord[] = {0,0};
-  Find_MPI_Dimentions(sizex,sizey,mpi_size,mpi_dimentions);
+  Find_MPI_Dimensions(sizex,sizey,mpi_size,mpi_dimentions);
   Find_Node_Coord(rank,mpi_dimentions,node_coord);
 
   World world1(sizex,sizey,rank,mpi_size,mpi_dimentions,node_coord);
@@ -381,7 +381,7 @@ TEST_CASE("Check World member functions"){
 
   int mpi_dimentions[] = {0,0};
   int node_coord[] = {0,0};
-  Find_MPI_Dimentions(sizex,sizey,mpi_size,mpi_dimentions);
+  Find_MPI_Dimensions(sizex,sizey,mpi_size,mpi_dimentions);
   Find_Node_Coord(rank,mpi_dimentions,node_coord);
 
   World world1(sizex,sizey,rank,mpi_size,mpi_dimentions,node_coord);
