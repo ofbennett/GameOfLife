@@ -53,7 +53,6 @@ void World::Record(ostream &out) const{
 
 void World::Update(){
 
-  // UpdateKernel<<<1,64>>>(d_grid,index,d_next_grid,sizex,sizey);
   UpdateKernel(d_grid,index,d_next_grid,grid,sizex,sizey);
 
   day += 1;
