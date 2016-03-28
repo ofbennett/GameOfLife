@@ -86,16 +86,16 @@ def fetch_time(dir_name = 'latest_results'):
 
 @task
 def cleanup_results():
-    run('rm -rf /home/'+env.user+'/Scratch/GoL')
+    run('rm -rf '+ env.run_at)
 
 @task
 def cleanup_code():
-    run('rm -rf /home/'+env.user+'/code/GoL')
+    run('rm -rf '+ env.deploy_to)
 
 @task
 def cleanup_all():
-    run('rm -rf /home/'+env.user+'/Scratch/GoL')
-    run('rm -rf /home/'+env.user+'/code/GoL')
+    run('rm -rf '+ env.run_at)
+    run('rm -rf '+ env.deploy_to)
 
 @task
 def patch():
