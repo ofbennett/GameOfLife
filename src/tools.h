@@ -6,7 +6,7 @@ double time_calc(double begin, double end){
   return total_time;
 }
 
-void Find_MPI_Dimentions(int sizex, int sizey, int mpi_size, int* mpi_dimentions){
+void Find_MPI_Dimensions(int sizex, int sizey, int mpi_size, int* mpi_dimentions){
 
   assert(mpi_size!=0);
 

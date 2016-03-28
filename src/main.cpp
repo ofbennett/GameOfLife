@@ -68,7 +68,7 @@ int main(int argc, char **argv){
 
   int mpi_dimentions[] = {0,0};
   int node_coord[] = {0,0};
-  Find_MPI_Dimentions(sizex,sizey,mpi_size,mpi_dimentions);
+  Find_MPI_Dimensions(sizex,sizey,mpi_size,mpi_dimentions);
   Find_Node_Coord(rank,mpi_dimentions,node_coord);
 
   World world(sizex,sizey,rank,mpi_size,mpi_dimentions,node_coord);
