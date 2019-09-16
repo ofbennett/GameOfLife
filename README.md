@@ -2,7 +2,7 @@
 
 By Oscar Bennett
 
-This project is a C++ implementation of Conway's Game of Life. This is a program that simulates a world which produces interesting animations dependant on the initial conditions and world rules you choose.
+This project is a C++ implementation of Conway's Game of Life. This is a program that simulates a world which produces interesting animations dependant on the initial conditions and world rules you choose. Here is an example of one of the simulations created using a random initialisation in a small square 'world':
 
 <p align="center"><img src="example_results/GoL_video.mov"></p>
 
