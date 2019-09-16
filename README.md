@@ -6,7 +6,7 @@ This project is a C++ implementation of Conway's Game of Life. This is a program
 
 <p align="center"><img src="example_results/GoL_video.mov"></p>
 
-A nice explanation of the ideas can be found [here](https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life). Running the simulation is numerically intensive but the calculations involved are a good example of an [embarrassingly parallel](https://en.wikipedia.org/wiki/Embarrassingly_parallel) program. Because of this the program is a nice way of demonstrating various ways of speeding up computation using a variety of high performance computing technologies. I have created a series of different implementations using different methods. See below for details about each approach. Different git branches in this repository parallelize the code in different ways:
+A nice explanation of the ideas can be found [here](https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life). Running the simulation is numerically intensive but the calculations involved are a good example of an [embarrassingly parallel](https://en.wikipedia.org/wiki/Embarrassingly_parallel) program. Because of this the program is a nice way of demonstrating various ways of speeding up computation using high performance computing technologies. I have created a series of different implementations using a range of methods. See below for details about each approach. Different git branches in this repository parallelize the code in different ways:
 
 - serial
 - OpenMP
