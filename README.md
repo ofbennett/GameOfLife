@@ -4,7 +4,7 @@ By Oscar Bennett
 
 This project is a C++ implementation of Conway's Game of Life. This is a program that simulates a world which produces interesting animations dependant on the initial conditions and world rules you choose. Here is an example of one of the simulations created using a random initialisation in a small square 'world':
 
-<p align="center"><img src="example_results/GoL_video.mov"></p>
+<p align="center"><img src="example_results/GoL_video.gif"></p>
 
 A nice explanation of the ideas can be found [here](https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life). Running the simulation is numerically intensive but the calculations involved are a good example of an [embarrassingly parallel](https://en.wikipedia.org/wiki/Embarrassingly_parallel) program. Because of this the program is a nice way of demonstrating various ways of speeding up computation using high performance computing technologies. I have created a series of different implementations using a range of methods. See below for details about each approach. Different git branches in this repository parallelize the code in different ways:
 
