@@ -39,29 +39,41 @@ Example results from each branch are provided in the folder example_results. The
 This can be built and run locally or on Legion.
 
 To build locally:
-- git clone https://github.com/ofbennett/GameOfLife.git
-- cd GameOfLife
-- git checkout serial
-- mkdir ../build
-- cd ../build
-- ccmake ../GameOfLife
-- -> Hit c to configure
-- -> Hit c to configure
-- -> Hit g to generate a make file
-- make
+```
+$ git clone https://github.com/ofbennett/GameOfLife.git
+$ cd GameOfLife
+$ git checkout serial
+$ mkdir ../build
+$ cd ../build
+$ ccmake ../GameOfLife
+```
+- Hit c to configure
+- Hit c to configure
+- Hit g to generate a make file
+```
+$ make
+```
 
 To run the unit tests:
-- test/test_GoL
+```
+$ test/test_GoL
+```
 
 Then to execute the code with default parameters:
-- src/game_of_life
+```
+$ src/game_of_life
+```
 
 Alternatively to execute the code with your own parameters:
-- -> Modify the config.yml file to contain the simulation parameters of your choice
-- src/game_of_life ../GameOfLife/config.yml
+- Modify the config.yml file to contain the simulation parameters of your choice
+```
+$ src/game_of_life ../GameOfLife/config.yml
+```
 
 Then to create a video from the output:
-- python ../GameOfLife/make_video.py output.txt
+```
+$ python ../GameOfLife/make_video.py output.txt
+```
 
 DONE
 
@@ -69,21 +81,29 @@ To build and run the code on Legion:
 There are a series of Fabric functions that can be called to carry this out conveniently. However, before you can do this you need to modify the file `deploy/legion.py`. You need to replace my Legion user name (at the top of the file) with yours.
 
 Commands:
-- git clone https://github.com/ofbennett/GameOfLife.git
-- cd GameOfLife
-- git checkout serial
-- -> Modify deploy/legion.py file, replacing my Legion user name with yours.
-- -> Modify config.yml file to contain the simulation parameters of your choice
-- fab legion.cold
-- -> Tests are automatically run after the build
-- fab legion.sub
-- fab legion.wait
-- fab legion.fetch_all
-- fab legion.cleanup_all (If you want to delete the build and results from your Legion account)
-- python make_video.py results/latest_results/legion.rc.ucl.ac.uk/output.txt
+```
+$ git clone https://github.com/ofbennett/GameOfLife.git
+$ cd GameOfLife
+$ git checkout serial
+```
+- Modify deploy/legion.py file, replacing my Legion user name with yours.
+- Modify config.yml file to contain the simulation parameters of your choice
+```
+$ fab legion.cold
+```
+- Tests are automatically run after the build
+```
+$ fab legion.sub
+$ fab legion.wait
+$ fab legion.fetch_all
+$ fab legion.cleanup_all (If you want to delete the build and results from your Legion account)
+$ python make_video.py results/latest_results/legion.rc.ucl.ac.uk/output.txt
+```
 
 Alternatively, if you have access to a bash shell you can run this whole pipeline by executing the supplied shell script like this:
-- bash legion_pipeline.sh
+```
+$ bash legion_pipeline.sh
+```
 
 ******************************************************************************
 ### OPENMP BRANCH:
@@ -99,7 +119,9 @@ git checkout OpenMP
 Building and running on Legion:  
 The steps to carry this out are the same as for the serial branch above. However, if you would like to control the number of cores the execution will distribute across (default 4) you can do so by slightly modifying the 'sub' fabric command. For example if you would like to use 12 cores you would type this command instead:
 
-- fab legion.sub:processes=12
+```
+$ fab legion.sub:processes=12
+```
 
 As with the serial branch, running the legion_pipeline.sh bash script will carry out the whole Legion deployment pipeline automatically.
 
@@ -116,13 +138,17 @@ This version of the code needs to be built and run on a system which has OpenMPI
 Building and running on Legion:  
 The steps to carry this out are the same as for the serial and OpenMP branches above. If you want 12 nodes, for example, (default 4) then use the command:
 
-- fab legion.sub:processes=12
+```
+$ fab legion.sub:processes=12
+```
 
 As with the OpenMP branch there are bash scripts available to automate things. The `legion_pipeline.sh` script will carry out the Legion deployment pipeline. The `create_performance_graph.sh` will measure the run time using multiple different node numbers and construct a graph (Amdahl's law!). Warning: this graph script can take a while to execute depending on how busy Legion is (0.5 - 1 hour).
 
 Because the code execution involves complicated communication between nodes, in order to really mean anything the code tests also need to be run on Legion! To run the tests simply run the supplied bash script:
 
-- bash test_script.sh
+```
+$ bash test_script.sh
+```
 
 The test results will be fetched back as a file that looks like `GameOfLife.o*` with some trailing numbers. This is a text file which contains the printed results from the tests.
 
