@@ -25,11 +25,11 @@ NOTE: Local building requires CMake, whilst running the scripts to deploy the co
 
 The execution of the code is controlled by a `config.yml` file. Modify this file to specify parameter values for the simulation. The variable parameters are:
 
-- sizex: The size of the x (or horizontal) dimension of the cell field
-- sizey: The size of the y (or vertical) dimension of the cell field
-- EndOfDays: The number of update steps to run the simulation for
-- Pseudorandom: Initialize the cell field pseudorandomly (set to 1) or truly randomly (set to 0)
-- verbose: Verbose output (set to 1) or quiet output (set to 0)
+- `sizex`: The size of the x (or horizontal) dimension of the cell field
+- `sizey`: The size of the y (or vertical) dimension of the cell field
+- `EndOfDays`: The number of update steps to run the simulation for
+- `Pseudorandom`: Initialize the cell field pseudorandomly (set to 1) or truly randomly (set to 0)
+- `verbose`: Verbose output (set to 1) or quiet output (set to 0)
 
 Example results from each branch are provided in the folder example_results. These results include the printed std output from the program along with the video created from the results of the computation. The raw output data has not been included as these files are very large.
 
