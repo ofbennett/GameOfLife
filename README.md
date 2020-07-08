@@ -2,13 +2,13 @@
 
 By Oscar Bennett
 
-This project is a C++ implementation of Conway's Game of Life. This is a program that simulates a world which produces interesting animations dependant on the initial conditions and world rules you choose. Here is an example of one of the simulations created using a random initialisation in a small square 'world':
+This is a C++ implementation of Conway's Game of Life. The program simulates a world filled with organisms which live and die according to certain rules. The pattern of changes produces interesting animations which are dependant on the initial conditions and as well as the world rules that you choose. Here is an example of one of the simulations created using a random initialisation in a small square 'world':
 
 <p align="center"><img src="example_results/GoL_video.gif"></p>
 
-A nice explanation of the ideas can be found [here](https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life). Running the simulation is numerically intensive but the calculations involved are a good example of an [embarrassingly parallel](https://en.wikipedia.org/wiki/Embarrassingly_parallel) program. Because of this the program is a nice way of demonstrating various ways of speeding up computation using high performance computing technologies. I have created a series of different implementations using a range of methods. See below for details about each approach. Different git branches in this repository parallelize the code in different ways:
+A nice explanation of the ideas can be found [here](https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life). Running the simulation is numerically intensive but the calculations involved are a good example of an [embarrassingly parallel](https://en.wikipedia.org/wiki/Embarrassingly_parallel) program. Because of this Conway's Game of Life provides an opportunity to demonstrate various ways of speeding up computation using various high performance computing technologies. I've created a series of different implementations using a range of methods. See below for details about each approach. Different git branches in this repository run the code in different ways:
 
-- serial
+- serial (for benchmark comparison)
 - OpenMP
 - MPI
 - CUDA
@@ -21,7 +21,7 @@ The project has been setup so that it can be easily run on UCL's cluster called 
 
 To run the code on Legion you need to have a UCL Legion account and be connected the the UCL network (ie to UCL eduroam). If you setup a UCL VPN on your computer you don't need to be connected to the UCL network.
 
-NOTE: Local building requires CMake, whilst running the scripts to deploy the code on Legion requires the python modules Fabric and Mako.
+Building locally requires CMake, whilst running the scripts to deploy the code on Legion requires the python modules Fabric and Mako.
 
 The execution of the code is controlled by a `config.yml` file. Modify this file to specify parameter values for the simulation. The variable parameters are:
 
@@ -31,7 +31,7 @@ The execution of the code is controlled by a `config.yml` file. Modify this file
 - `Pseudorandom`: Initialize the cell field pseudorandomly (set to 1) or truly randomly (set to 0)
 - `verbose`: Verbose output (set to 1) or quiet output (set to 0)
 
-Example results from each branch are provided in the folder example_results. These results include the printed std output from the program along with the video created from the results of the computation. The raw output data has not been included as these files are very large.
+Example results from each branch are provided in the folder example_results. These results include the printed std output from the program along with the video created from the results of the computation. The raw output data files has not been included as they are very large.
 
 ******************************************************************************
 ### SERIAL BRANCH:
@@ -130,7 +130,7 @@ There is also a bash script entitled `create_performance_graph.sh`. Running this
 ******************************************************************************
 ### MPI BRANCH:
 
-The Message Passing Interface (MPI) allows the parallel execution of code on multiple separate computers, or nodes on a cluster. I used the C++ library OpenMPI to parallelize execution of the GameOfLife code in this manner.
+The Message Passing Interface (MPI) allows the parallel execution of code on multiple separate computers, or nodes on a cluster. I used the C++ library OpenMPI to parallelize execution of the GameOfLife code in this way.
 
 Building and running locally:  
 This version of the code needs to be built and run on a system which has OpenMPI (and its dependancies) installed. These can be locally installed easily using something like Homebrew on a Mac. The code is then built and run locally in the same way as the serial branch (except you "git checkout MPI"). However, given the nature of the way this code is parallelized, there isn't much point running it on an isolated local machine (it will simply run serially in a more complicated way). This MPI version of the code should be deployed onto a cluster such as Legion to take advantage of the MPI performance improvement.
@@ -155,7 +155,7 @@ The test results will be fetched back as a file that looks like `GameOfLife.o*` 
 ******************************************************************************
 ### CUDA BRANCH:
 
-CUDA is an API created by NVIDIA which allows programs to be executed in parallel across a CUDA-enabled GPU. I used a C++ library called CUDA Thrust to parallelize the GameOfLife code on a GPU in this manner.
+CUDA is an API created by NVIDIA which allows programs to be executed in parallel across a CUDA-enabled GPU. I used a C++ library called CUDA Thrust to parallelize the GameOfLife code on a GPU.
 
 Building and running locally:  
 This version of the code needs to be built and run on a system which has both an NVIDIA GPU and a working installation of CUDA. If your local system meets these requirements then the code can be built and run locally in the same way as the serial branch (except you "git checkout CUDA").
